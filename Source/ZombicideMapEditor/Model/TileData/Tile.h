@@ -4,7 +4,7 @@
 
 namespace Model
 {
-    class FTile : FNoncopyable
+    class FTile
     {
     public:
         FTile(const uint32_t SetId, const uint32_t CardId, const ETileSide Side);

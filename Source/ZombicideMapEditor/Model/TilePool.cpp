@@ -1,5 +1,13 @@
 ﻿#include "TilePool.h"
 #include "TileData/Tile.h"
+#include "TileRegistry.h"
+
+void Model::FTilePool::Init(const FTileRegistry& TileRegistry)
+{
+    AvailableTiles.Empty();
+    UnavailableTiles.Empty();
+    AvailableTiles.Insert(TileRegistry.GetTiles(), 0);
+}
 
 const TArray<const Model::FTile*>& Model::FTilePool::GetAvailableTiles() const
 {

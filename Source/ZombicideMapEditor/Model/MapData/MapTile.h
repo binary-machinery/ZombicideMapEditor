@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "MapTileRotation.h"
 
 namespace Model
 {
@@ -7,10 +8,10 @@ namespace Model
     class FMapTile : FNoncopyable
     {
     public:
-        FMapTile(const FTile* const Tile, const uint32_t Rotation);
+        FMapTile(const FTile* const Tile, const EMapTileRotation Rotation);
 
     private:
         const FTile* Tile;
-        uint32_t Rotation;
+        EMapTileRotation Rotation;
     };
 }
