@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -10,16 +8,16 @@
 #include "GameFramework/Actor.h"
 #include "MapData/Map.h"
 
-#include "ModelActor.generated.h"
+#include "EditorModelActor.generated.h"
 
 UCLASS()
-class ZOMBICIDEMAPEDITOR_API AModelActor : public AActor
+class ZOMBICIDEMAPEDITOR_API AEditorModelActor : public AActor
 {
     GENERATED_BODY()
 
 public:
     // Sets default values for this actor's properties
-    AModelActor();
+    AEditorModelActor();
 
 protected:
     // Called when the game starts or when spawned
