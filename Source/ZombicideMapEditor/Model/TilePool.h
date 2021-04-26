@@ -12,6 +12,7 @@ namespace Model
         void Init(const FTileRegistry& TileRegistry);
         const TArray<const FTile*>& GetAvailableTiles() const;
         const FTile* TakeTileFromPool(const FTileId& TileId);
+        const FTile* TakeRandomTileFromPool();
         void ReturnTileToPool(const FTile* Tile);
 
     private:

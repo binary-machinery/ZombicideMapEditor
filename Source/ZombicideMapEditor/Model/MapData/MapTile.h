@@ -5,7 +5,7 @@ namespace Model
 {
     class FTile;
 
-    class FMapTile : FNoncopyable
+    class FMapTile
     {
     public:
         FMapTile(const FTile* const Tile, const EMapTileRotation Rotation);

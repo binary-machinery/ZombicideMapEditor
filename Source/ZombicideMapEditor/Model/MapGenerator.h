@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "TilePool.h"
+#include "MapData/MapTileRotation.h"
+#include <array>
 
 namespace Model
 {
@@ -15,6 +17,8 @@ namespace Model
         void Generate();
 
     private:
+        static std::array<EMapTileRotation, 4> AvailableRotations;
+
         FMap* Map = nullptr;
         FTilePool* TilePool = nullptr;
     };

@@ -7,6 +7,7 @@ namespace Model
     {
     public:
         FMap(const uint32_t SizeX, const uint32_t SizeY);
+        void SetTile(const uint32_t X, const uint32_t Y, const FTile* const Tile, const EMapTileRotation Rotation);
 
         uint32_t GetSizeX() const
         {
@@ -21,6 +22,6 @@ namespace Model
     private:
         const uint32_t SizeX;
         const uint32_t SizeY;
-        TArray<TArray<const FMapTile*>> TileGrid;
+        TArray<TArray<FMapTile>> TileGrid;
     };
 }

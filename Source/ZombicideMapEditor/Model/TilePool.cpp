@@ -33,6 +33,12 @@ const Model::FTile* Model::FTilePool::TakeTileFromPool(const FTileId& TileId)
     return *Tile;
 }
 
+const Model::FTile* Model::FTilePool::TakeRandomTileFromPool()
+{
+    const uint32_t Index = FMath::RandHelper(AvailableTiles.Num());
+    return TakeTileFromPool(AvailableTiles[Index]->GetTileId());
+}
+
 void Model::FTilePool::ReturnTileToPool(const FTile* Tile)
 {
     if (AvailableTiles.Find(Tile))
