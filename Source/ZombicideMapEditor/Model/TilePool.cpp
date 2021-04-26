@@ -19,18 +19,22 @@ const TArray<const Model::FTile*>& Model::FTilePool::GetAvailableTiles() const
 
 const Model::FTile* Model::FTilePool::TakeTileFromPool(const FTileId& TileId)
 {
-    const FTile** Tile = AvailableTiles.FindByKey(TileId);
-    if (Tile)
+    const FTile** TilePtr = AvailableTiles.FindByKey(TileId);
+    if (TilePtr)
     {
-        AvailableTiles.Remove(*Tile);
-        const FTile** OtherSideTile = AvailableTiles.FindByKey(TileId.GetOtherSideTileId());
-        if (OtherSideTile)
+        AvailableTiles.RemoveAll([&TileId](const FTile* Tile) { return Tile->GetTileId() == TileId; });
+        const FTileId OtherSideTileId = TileId.GetOtherSideTileId();
+        const FTile** OtherSideTilePtr = AvailableTiles.FindByKey(OtherSideTileId);
+        if (OtherSideTilePtr)
         {
-            AvailableTiles.Remove(*OtherSideTile);
-            UnavailableTiles.Add(*OtherSideTile);
+            AvailableTiles.RemoveAll([&OtherSideTileId](const FTile* Tile)
+            {
+                return Tile->GetTileId() == OtherSideTileId;
+            });
+            UnavailableTiles.Add(*OtherSideTilePtr);
         }
     }
-    return *Tile;
+    return *TilePtr;
 }
 
 const Model::FTile* Model::FTilePool::TakeRandomTileFromPool()
@@ -47,10 +51,14 @@ void Model::FTilePool::ReturnTileToPool(const FTile* Tile)
     }
 
     AvailableTiles.Add(Tile);
-    const FTile** OtherSideTile = UnavailableTiles.FindByKey(Tile->GetTileId().GetOtherSideTileId());
-    if (OtherSideTile)
+    const FTileId OtherSideTileId = Tile->GetTileId().GetOtherSideTileId();
+    const FTile** OtherSideTilePtr = UnavailableTiles.FindByKey(OtherSideTileId);
+    if (OtherSideTilePtr)
     {
-        UnavailableTiles.Remove(*OtherSideTile);
-        AvailableTiles.Add(*OtherSideTile);
+        UnavailableTiles.RemoveAll([&OtherSideTileId](const FTile* Tile)
+        {
+            return Tile->GetTileId() == OtherSideTileId;
+        });
+        AvailableTiles.Add(*OtherSideTilePtr);
     }
 }

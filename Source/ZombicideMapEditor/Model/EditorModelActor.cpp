@@ -20,6 +20,8 @@ AEditorModelActor::AEditorModelActor()
 void AEditorModelActor::BeginPlay()
 {
     Super::BeginPlay();
+
+    MapGenerator.Generate();
 }
 
 // Called every frame

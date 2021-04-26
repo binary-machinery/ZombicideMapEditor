@@ -5,9 +5,14 @@ Model::FMap::FMap(const uint32_t SizeX, const uint32_t SizeY)
       SizeY(SizeY)
 {
     TileGrid.Reserve(SizeX);
-    for (auto& Column : TileGrid)
+    for (uint32_t X = 0; X < SizeX; ++X)
     {
-        Column.Reserve(SizeY);
+        TileGrid.Emplace();
+        auto& Column = TileGrid[X];
+        for (uint32_t Y = 0; Y < SizeY; ++Y)
+        {
+            Column.Emplace(nullptr, EMapTileRotation::Rotation0);
+        }
     }
 }
 
