@@ -21,10 +21,8 @@ void Model::FMapGenerator::SetTilePool(FTilePool* Value)
 
 void Model::FMapGenerator::Generate()
 {
-    if (!Map || !TilePool)
-    {
-        return;
-    }
+    checkf(Map, TEXT("Map is null"));
+    checkf(TilePool, TEXT("TilePool is null"));
 
     for (uint32_t X = 0; X < Map->GetSizeX(); ++X)
     {

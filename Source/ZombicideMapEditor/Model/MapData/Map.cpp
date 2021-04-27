@@ -9,6 +9,7 @@ Model::FMap::FMap(const uint32_t SizeX, const uint32_t SizeY)
     {
         TileGrid.Emplace();
         auto& Column = TileGrid[X];
+        Column.Reserve(SizeY);
         for (uint32_t Y = 0; Y < SizeY; ++Y)
         {
             Column.Emplace(nullptr, EMapTileRotation::Rotation0);
