@@ -20,6 +20,9 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     UPaperSprite* TileSprite;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TArray<UPaperSprite*> TileSprites;
+
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
