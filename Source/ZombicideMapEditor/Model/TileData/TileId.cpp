@@ -1,6 +1,6 @@
 ﻿#include "TileId.h"
 
-Model::FTileId::FTileId(const uint32_t CardId, const ETileSide Side)
+Model::FTileId::FTileId(const uint32 CardId, const ETileSide Side)
     : CardId(CardId),
       Side(Side)
 {

@@ -6,22 +6,22 @@ namespace Model
     class FMap : FNoncopyable
     {
     public:
-        FMap(const uint32_t SizeX, const uint32_t SizeY);
-        void SetTile(const uint32_t X, const uint32_t Y, const FTile* const Tile, const EMapTileRotation Rotation);
+        FMap(const uint32 SizeX, const uint32 SizeY);
+        void SetTile(const uint32 X, const uint32 Y, const FTile* const Tile, const EMapTileRotation Rotation);
 
-        uint32_t GetSizeX() const
+        uint32 GetSizeX() const
         {
             return SizeX;
         }
 
-        uint32_t GetSizeY() const
+        uint32 GetSizeY() const
         {
             return SizeY;
         }
 
     private:
-        const uint32_t SizeX;
-        const uint32_t SizeY;
+        const uint32 SizeX;
+        const uint32 SizeY;
         TArray<TArray<FMapTile>> TileGrid;
     };
 }

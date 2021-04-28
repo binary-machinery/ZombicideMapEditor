@@ -6,7 +6,7 @@ namespace Model
     class FTileId
     {
     public:
-        FTileId(const uint32_t CardId, const ETileSide Side);
+        FTileId(const uint32 CardId, const ETileSide Side);
         FTileId GetOtherSideTileId() const;
 
         friend bool operator==(const FTileId& Lhs, const FTileId& Rhs)
@@ -16,7 +16,7 @@ namespace Model
         }
 
     private:
-        const uint32_t CardId;
+        const uint32 CardId;
         const ETileSide Side;
     };
 }

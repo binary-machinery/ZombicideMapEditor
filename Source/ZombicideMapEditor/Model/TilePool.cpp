@@ -39,7 +39,7 @@ const Model::FTile* Model::FTilePool::TakeTileFromPool(const FTileId& TileId)
 
 const Model::FTile* Model::FTilePool::TakeRandomTileFromPool()
 {
-    const uint32_t Index = FMath::RandHelper(AvailableTiles.Num());
+    const uint32 Index = FMath::RandHelper(AvailableTiles.Num());
     return TakeTileFromPool(AvailableTiles[Index]->GetTileId());
 }
 

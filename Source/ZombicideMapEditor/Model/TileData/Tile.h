@@ -7,9 +7,9 @@ namespace Model
     class FTile
     {
     public:
-        FTile(const uint32_t SetId, const uint32_t CardId, const ETileSide Side);
+        FTile(const uint32 SetId, const uint32 CardId, const ETileSide Side);
 
-        uint32_t GetSetId() const
+        uint32 GetSetId() const
         {
             return SetId;
         }
@@ -30,7 +30,7 @@ namespace Model
         }
 
     private:
-        const uint32_t SetId;
+        const uint32 SetId;
         const FTileId TileId;
     };
 }

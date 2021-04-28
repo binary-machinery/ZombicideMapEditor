@@ -24,9 +24,9 @@ void Model::FMapGenerator::Generate()
     checkf(Map, TEXT("Map is null"));
     checkf(TilePool, TEXT("TilePool is null"));
 
-    for (uint32_t X = 0; X < Map->GetSizeX(); ++X)
+    for (uint32 X = 0; X < Map->GetSizeX(); ++X)
     {
-        for (uint32_t Y = 0; Y < Map->GetSizeY(); ++Y)
+        for (uint32 Y = 0; Y < Map->GetSizeY(); ++Y)
         {
             Map->SetTile(
                 X, Y,
