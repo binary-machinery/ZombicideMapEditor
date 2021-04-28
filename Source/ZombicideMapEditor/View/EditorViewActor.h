@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ZombicideMapEditor/Model/TileData/TileId.h"
+
 #include "EditorViewActor.generated.h"
 
 class ATileSpriteActor;
@@ -18,9 +20,6 @@ public:
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    UPaperSprite* TileSprite;
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly)
     TArray<UPaperSprite*> TileSprites;
 
     // Called when the game starts or when spawned
@@ -29,4 +28,7 @@ protected:
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
+
+private:
+    TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
 };

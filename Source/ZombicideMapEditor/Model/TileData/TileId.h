@@ -15,6 +15,11 @@ namespace Model
                 && Lhs.Side == Rhs.Side;
         }
 
+        friend uint32 GetTypeHash(const FTileId& TileId)
+        {
+            return HashCombine(TileId.CardId, static_cast<uint32>(TileId.Side));
+        }
+
     private:
         const uint32 CardId;
         const ETileSide Side;
