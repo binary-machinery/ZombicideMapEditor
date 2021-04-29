@@ -6,8 +6,14 @@
 
 #include "EditorViewActor.generated.h"
 
+class AEditorModelActor;
 class ATileSpriteActor;
 class UPaperSprite;
+
+namespace Model
+{
+    class FTileId;
+}
 
 UCLASS()
 class ZOMBICIDEMAPEDITOR_API AEditorViewActor : public AActor
@@ -20,6 +26,9 @@ public:
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    AEditorModelActor* ModelActor;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
     TArray<UPaperSprite*> TileSprites;
 
     // Called when the game starts or when spawned
@@ -30,5 +39,8 @@ public:
     virtual void Tick(float DeltaTime) override;
 
 private:
+    void OnMapGenerated();
+    void SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId);
+
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
 };

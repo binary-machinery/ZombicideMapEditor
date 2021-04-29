@@ -19,6 +19,11 @@ namespace Model
             return SizeY;
         }
 
+        const FMapTile& GetMapTile(const uint32 X, const uint32 Y) const
+        {
+            return TileGrid[X][Y];
+        }
+
     private:
         const uint32 SizeX;
         const uint32 SizeY;

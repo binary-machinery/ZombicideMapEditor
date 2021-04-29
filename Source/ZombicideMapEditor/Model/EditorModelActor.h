@@ -19,6 +19,9 @@ public:
     // Sets default values for this actor's properties
     AEditorModelActor();
 
+    DECLARE_EVENT(AEditorModelActor, FMapGeneratedEvent)
+    FMapGeneratedEvent& OnMapGeneratedEvent();
+
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
@@ -27,9 +30,16 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+    const Model::FMap& GetMap() const
+    {
+        return *Map;
+    };
+
 private:
     TUniquePtr<Model::FMap> Map;
     Model::FTileRegistry TileRegistry;
     Model::FTilePool TilePool;
     Model::FMapGenerator MapGenerator;
+
+    FMapGeneratedEvent MapGenerated;
 };

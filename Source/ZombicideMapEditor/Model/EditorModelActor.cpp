@@ -16,16 +16,25 @@ AEditorModelActor::AEditorModelActor()
     TilePool.Init(TileRegistry);
 }
 
+AEditorModelActor::FMapGeneratedEvent& AEditorModelActor::OnMapGeneratedEvent()
+{
+    return MapGenerated;
+}
+
 // Called when the game starts or when spawned
 void AEditorModelActor::BeginPlay()
 {
     Super::BeginPlay();
-
-    MapGenerator.Generate();
 }
 
 // Called every frame
 void AEditorModelActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
+    if (!MapGenerator.IsGenerated())
+    {
+        MapGenerator.Generate();
+        OnMapGeneratedEvent().Broadcast();
+    }
 }

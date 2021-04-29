@@ -9,6 +9,16 @@ namespace Model
         FTileId(const uint32 CardId, const ETileSide Side);
         FTileId GetOtherSideTileId() const;
 
+        uint32 GetCardId() const
+        {
+            return CardId;
+        }
+
+        ETileSide GetSide() const
+        {
+            return Side;
+        }
+
         friend bool operator==(const FTileId& Lhs, const FTileId& Rhs)
         {
             return Lhs.CardId == Rhs.CardId
