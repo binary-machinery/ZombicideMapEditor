@@ -35,5 +35,4 @@ void Model::FMapGenerator::Generate()
             );
         }
     }
-    bGenerated = true;
 }

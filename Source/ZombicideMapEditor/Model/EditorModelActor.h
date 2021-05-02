@@ -41,5 +41,6 @@ private:
     Model::FTilePool TilePool;
     Model::FMapGenerator MapGenerator;
 
+    bool bGenerated = false;
     FMapGeneratedEvent MapGenerated;
 };

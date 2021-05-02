@@ -16,16 +16,10 @@ namespace Model
         void SetTilePool(FTilePool* Value);
         void Generate();
 
-        bool IsGenerated() const
-        {
-            return bGenerated;
-        }
-
     private:
         static std::array<EMapTileRotation, 4> AvailableRotations;
 
         FMap* Map = nullptr;
         FTilePool* TilePool = nullptr;
-        bool bGenerated = false;
     };
 }

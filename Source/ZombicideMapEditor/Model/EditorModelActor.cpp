@@ -32,9 +32,10 @@ void AEditorModelActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    if (!MapGenerator.IsGenerated())
+    if (!bGenerated)
     {
         MapGenerator.Generate();
+        bGenerated = true;
         OnMapGeneratedEvent().Broadcast();
     }
 }
