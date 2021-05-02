@@ -53,21 +53,21 @@ void AEditorViewActor::RedrawMap()
             const Model::FMapTile& MapTile = Map.GetMapTile(X, Y);
             if (MapTile.GetTile())
             {
-                SpawnSprite(X, Y, MapTile.GetTile()->GetTileId());
+                SpawnSprite(X, Y, MapTile.GetTile()->GetTileId(), MapTile.GetRotation());
             }
         }
     }
 }
 
-void AEditorViewActor::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId)
+void AEditorViewActor::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
+                                   const Model::EMapTileRotation Rotation)
 {
-    // TODO: Tile rotation
     const float OffsetX = 250;
     const float OffsetY = 125;
     ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
         ATileSpriteActor::StaticClass(),
         FVector(X * 250 - OffsetX, 0, Y * 250 - OffsetY),
-        FRotator::ZeroRotator
+        FRotator::MakeFromEuler(FVector(0, static_cast<float>(Rotation), 0))
     );
     TileSpriteActor->SetSprite(TileSpritesMap[TileId]);
     TileSpriteActors.Add(TileSpriteActor);

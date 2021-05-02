@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ZombicideMapEditor/Model/MapData/MapTileRotation.h"
 #include "ZombicideMapEditor/Model/TileData/TileId.h"
 
 #include "EditorViewActor.generated.h"
@@ -40,7 +41,8 @@ public:
 
 private:
     void RedrawMap();
-    void SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId);
+    void SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
+                     const Model::EMapTileRotation Rotation);
 
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
     TArray<ATileSpriteActor*> TileSpriteActors;
