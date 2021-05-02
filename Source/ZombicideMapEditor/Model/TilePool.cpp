@@ -20,21 +20,22 @@ const TArray<const Model::FTile*>& Model::FTilePool::GetAvailableTiles() const
 const Model::FTile* Model::FTilePool::TakeTileFromPool(const FTileId& TileId)
 {
     const FTile** TilePtr = AvailableTiles.FindByKey(TileId);
-    if (TilePtr)
+    if (!TilePtr)
     {
-        AvailableTiles.RemoveAll([&TileId](const FTile* Tile) { return Tile->GetTileId() == TileId; });
-        const FTileId OtherSideTileId = TileId.GetOtherSideTileId();
-        const FTile** OtherSideTilePtr = AvailableTiles.FindByKey(OtherSideTileId);
-        if (OtherSideTilePtr)
-        {
-            AvailableTiles.RemoveAll([&OtherSideTileId](const FTile* Tile)
-            {
-                return Tile->GetTileId() == OtherSideTileId;
-            });
-            UnavailableTiles.Add(*OtherSideTilePtr);
-        }
+        return nullptr;
     }
-    return *TilePtr;
+
+    const FTile* Tile = *TilePtr; // Copy pointer before we modify AvailableTiles memory
+    AvailableTiles.Remove(Tile); // We modify the collection, TilePtr cannot be used anymore
+
+    const FTile** OtherSideTilePtr = AvailableTiles.FindByKey(TileId.GetOtherSideTileId());
+    if (OtherSideTilePtr)
+    {
+        const FTile* OtherSideTile = *OtherSideTilePtr; // Copy pointer before we modify AvailableTiles memory
+        AvailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
+        UnavailableTiles.Add(OtherSideTile);
+    }
+    return Tile;
 }
 
 const Model::FTile* Model::FTilePool::TakeRandomTileFromPool()
@@ -55,10 +56,8 @@ void Model::FTilePool::ReturnTileToPool(const FTile* Tile)
     const FTile** OtherSideTilePtr = UnavailableTiles.FindByKey(OtherSideTileId);
     if (OtherSideTilePtr)
     {
-        UnavailableTiles.RemoveAll([&OtherSideTileId](const FTile* Tile)
-        {
-            return Tile->GetTileId() == OtherSideTileId;
-        });
-        AvailableTiles.Add(*OtherSideTilePtr);
+        const FTile* OtherSideTile = *OtherSideTilePtr; // Copy pointer before we modify UnavailableTiles memory
+        UnavailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
+        AvailableTiles.Add(OtherSideTile);
     }
 }
