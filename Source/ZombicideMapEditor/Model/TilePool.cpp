@@ -46,7 +46,7 @@ const Model::FTile* Model::FTilePool::TakeRandomTileFromPool()
 
 void Model::FTilePool::ReturnTileToPool(const FTile* Tile)
 {
-    if (AvailableTiles.Find(Tile))
+    if (AvailableTiles.Find(Tile) != INDEX_NONE)
     {
         return;
     }

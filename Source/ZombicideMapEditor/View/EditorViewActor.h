@@ -39,8 +39,9 @@ public:
     virtual void Tick(float DeltaTime) override;
 
 private:
-    void OnMapGenerated();
+    void RedrawMap();
     void SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId);
 
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
+    TArray<ATileSpriteActor*> TileSpriteActors;
 };

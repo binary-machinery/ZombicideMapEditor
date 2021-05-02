@@ -36,3 +36,25 @@ void Model::FMapGenerator::Generate()
         }
     }
 }
+
+void Model::FMapGenerator::GenerateNextTile()
+{
+    const FMapTile& CurrentMapTile = Map->GetMapTile(CurrentX, CurrentY);
+    if (CurrentMapTile.GetTile())
+    {
+        TilePool->ReturnTileToPool(CurrentMapTile.GetTile());
+    }
+
+    Map->SetTile(
+        CurrentX, CurrentY,
+        TilePool->TakeRandomTileFromPool(),
+        AvailableRotations[FMath::RandHelper(AvailableRotations.size())]
+    );
+
+    ++CurrentX;
+    if (CurrentX >= Map->GetSizeX())
+    {
+        CurrentX = 0;
+        CurrentY = (CurrentY + 1) % Map->GetSizeY();
+    }
+}

@@ -16,15 +16,23 @@ class ZOMBICIDEMAPEDITOR_API AEditorModelActor : public AActor
     GENERATED_BODY()
 
 public:
+    DECLARE_EVENT(AEditorModelActor, FGeneratedMapEvent)
+
+    DECLARE_EVENT(AEditorModelActor, FGeneratedNextTileEvent)
+
     // Sets default values for this actor's properties
     AEditorModelActor();
 
-    DECLARE_EVENT(AEditorModelActor, FMapGeneratedEvent)
-    FMapGeneratedEvent& OnMapGeneratedEvent();
+    FGeneratedMapEvent& OnGeneratedMapEvent();
+    FGeneratedNextTileEvent& OnGeneratedNextTileEvent();
 
 protected:
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    float GenerateNextTileTimeInterval = 0.2f;
+
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
+    void GenerateNextTile();
 
 public:
     // Called every frame
@@ -42,5 +50,8 @@ private:
     Model::FMapGenerator MapGenerator;
 
     bool bGenerated = false;
-    FMapGeneratedEvent MapGenerated;
+    FTimerHandle GenerateNextTileTimerHandle;
+
+    FGeneratedMapEvent GeneratedMapEvent;
+    FGeneratedNextTileEvent GeneratedNextTileEvent;
 };

@@ -16,7 +16,8 @@ void AEditorViewActor::BeginPlay()
 {
     Super::BeginPlay();
 
-    ModelActor->OnMapGeneratedEvent().AddLambda([this]() { OnMapGenerated(); });
+    ModelActor->OnGeneratedMapEvent().AddLambda([this]() { RedrawMap(); });
+    ModelActor->OnGeneratedNextTileEvent().AddLambda([this]() { RedrawMap(); }); // TODO: Redraw the changed sprite only
 
     for (UPaperSprite* TileSprite : TileSprites)
     {
@@ -36,21 +37,31 @@ void AEditorViewActor::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
 }
 
-void AEditorViewActor::OnMapGenerated()
+void AEditorViewActor::RedrawMap()
 {
+    for (ATileSpriteActor* TileSpriteActor : TileSpriteActors)
+    {
+        TileSpriteActor->Destroy();
+    }
+    TileSpriteActors.Empty();
+
     const Model::FMap& Map = ModelActor->GetMap();
     for (uint32 X = 0; X < Map.GetSizeX(); ++X)
     {
         for (uint32 Y = 0; Y < Map.GetSizeX(); ++Y)
         {
             const Model::FMapTile& MapTile = Map.GetMapTile(X, Y);
-            SpawnSprite(X, Y, MapTile.GetTile()->GetTileId());
+            if (MapTile.GetTile())
+            {
+                SpawnSprite(X, Y, MapTile.GetTile()->GetTileId());
+            }
         }
     }
 }
 
 void AEditorViewActor::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId)
 {
+    // TODO: Tile rotation
     const float OffsetX = 250;
     const float OffsetY = 125;
     ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
@@ -59,4 +70,5 @@ void AEditorViewActor::SpawnSprite(const uint32 X, const uint32 Y, const Model::
         FRotator::ZeroRotator
     );
     TileSpriteActor->SetSprite(TileSpritesMap[TileId]);
+    TileSpriteActors.Add(TileSpriteActor);
 }

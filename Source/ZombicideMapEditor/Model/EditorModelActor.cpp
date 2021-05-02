@@ -16,15 +16,29 @@ AEditorModelActor::AEditorModelActor()
     TilePool.Init(TileRegistry);
 }
 
-AEditorModelActor::FMapGeneratedEvent& AEditorModelActor::OnMapGeneratedEvent()
+AEditorModelActor::FGeneratedMapEvent& AEditorModelActor::OnGeneratedMapEvent()
 {
-    return MapGenerated;
+    return GeneratedMapEvent;
+}
+
+AEditorModelActor::FGeneratedNextTileEvent& AEditorModelActor::OnGeneratedNextTileEvent()
+{
+    return GeneratedNextTileEvent;
 }
 
 // Called when the game starts or when spawned
 void AEditorModelActor::BeginPlay()
 {
     Super::BeginPlay();
+
+    GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModelActor::GenerateNextTile,
+                                    GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
+}
+
+void AEditorModelActor::GenerateNextTile()
+{
+    MapGenerator.GenerateNextTile();
+    GeneratedNextTileEvent.Broadcast();
 }
 
 // Called every frame
@@ -36,6 +50,6 @@ void AEditorModelActor::Tick(float DeltaTime)
     {
         MapGenerator.Generate();
         bGenerated = true;
-        OnMapGeneratedEvent().Broadcast();
+        GeneratedMapEvent.Broadcast();
     }
 }
