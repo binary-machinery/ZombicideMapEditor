@@ -63,6 +63,10 @@ private:
     void SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
                      const Model::EMapTileRotation Rotation);
 
+    void RebuildTilePoolItemWidgets();
+    void AddTilePoolItemWidget(const Model::FTileId& TileId);
+    void RemoveTilePoolItemWidget(const Model::FTileId& TileId);
+
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
     TArray<ATileSpriteActor*> TileSpriteActors;
     UTilePoolWidget* TilePoolWidget;

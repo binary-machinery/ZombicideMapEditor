@@ -15,6 +15,7 @@ class ZOMBICIDEMAPEDITOR_API UTilePoolWidget : public UUserWidget
     GENERATED_BODY()
 
 public:
+    void ClearTilePoolItemWidgets();
     void AddTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget);
 
 protected:

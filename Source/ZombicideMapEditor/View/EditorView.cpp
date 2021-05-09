@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "ZombicideMapEditor/Model/EditorModel.h"
+#include "ZombicideMapEditor/Model/TilePool.h"
 #include "ZombicideMapEditor/Model/TileData/Tile.h"
 
 AEditorView::AEditorView()
@@ -20,6 +21,21 @@ void AEditorView::BeginPlay()
 
     ModelActor->OnGeneratedMapEvent().AddLambda([this]() { RedrawMap(); });
     ModelActor->OnGeneratedNextTileEvent().AddLambda([this]() { RedrawMap(); }); // TODO: Redraw the changed sprite only
+
+    TilePool->OnPoolRebuiltEvent().AddLambda([this]()
+    {
+        RebuildTilePoolItemWidgets();
+    });
+
+    TilePool->OnTileAddedEvent().AddLambda([this](const Model::FTileId& TileId)
+    {
+        AddTilePoolItemWidget(TileId);
+    });
+
+    TilePool->OnTileRemovedEvent().AddLambda([this](const Model::FTileId& TileId)
+    {
+        RemoveTilePoolItemWidget(TileId);
+    });
 
     for (UPaperSprite* TileSprite : TileSprites)
     {
@@ -42,16 +58,7 @@ void AEditorView::BeginPlay()
     );
     TilePoolWidget->AddToViewport();
 
-    for (const auto& Pair : TileSpritesMap)
-    {
-        UTilePoolItemWidget* TilePoolItemWidget = CreateWidget<UTilePoolItemWidget>(
-            TilePoolWidget,
-            TilePoolItemWidgetType
-        );
-        TilePoolWidget->AddTilePoolItemWidget(TilePoolItemWidget);
-        TilePoolItemWidget->SetTileId(Pair.Key);
-        TilePoolItemWidget->SetTileTexture(Pair.Value->GetSourceTexture());
-    }
+    RebuildTilePoolItemWidgets();
 }
 
 void AEditorView::Tick(float DeltaTime)
@@ -82,7 +89,7 @@ void AEditorView::RedrawMap()
 }
 
 void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
-                                   const Model::EMapTileRotation Rotation)
+                              const Model::EMapTileRotation Rotation)
 {
     ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
         ATileSpriteActor::StaticClass(),
@@ -91,4 +98,30 @@ void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTile
     );
     TileSpriteActor->SetSprite(TileSpritesMap[TileId]);
     TileSpriteActors.Add(TileSpriteActor);
+}
+
+void AEditorView::RebuildTilePoolItemWidgets()
+{
+    TilePoolWidget->ClearTilePoolItemWidgets();
+    for (const Model::FTile* Tile : TilePool->GetAvailableTiles())
+    {
+        AddTilePoolItemWidget(Tile->GetTileId());
+    }
+}
+
+void AEditorView::AddTilePoolItemWidget(const Model::FTileId& TileId)
+{
+    UTilePoolItemWidget* TilePoolItemWidget = CreateWidget<UTilePoolItemWidget>(
+        TilePoolWidget,
+        TilePoolItemWidgetType
+    );
+    TilePoolWidget->AddTilePoolItemWidget(TilePoolItemWidget);
+
+    UPaperSprite* PaperSprite = TileSpritesMap[TileId];
+    TilePoolItemWidget->SetTileId(TileId);
+    TilePoolItemWidget->SetTileTexture(PaperSprite->GetSourceTexture());
+}
+
+void AEditorView::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
+{
 }

@@ -46,7 +46,6 @@ void AEditorModel::PostInitializeComponents()
 void AEditorModel::BeginPlay()
 {
     Super::BeginPlay();
-
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::BeginPlay"));
 
     GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,

@@ -29,6 +29,8 @@ const Model::FTile* ATilePool::TakeTileFromPool(const Model::FTileId& TileId)
         AvailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
         UnavailableTiles.Add(OtherSideTile);
     }
+
+    OnTileRemovedEvent().Broadcast(Tile->GetTileId());
     return Tile;
 }
 
@@ -54,6 +56,23 @@ void ATilePool::ReturnTileToPool(const Model::FTile* Tile)
         UnavailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
         AvailableTiles.Add(OtherSideTile);
     }
+
+    OnTileAddedEvent().Broadcast(Tile->GetTileId());
+}
+
+ATilePool::FPoolRebuiltEvent& ATilePool::OnPoolRebuiltEvent()
+{
+    return PoolRebuiltEvent;
+}
+
+ATilePool::FTileAddedEvent& ATilePool::OnTileAddedEvent()
+{
+    return TileAddedEvent;
+}
+
+ATilePool::FTileRemovedEvent& ATilePool::OnTileRemovedEvent()
+{
+    return TileRemovedEvent;
 }
 
 void ATilePool::PostInitializeComponents()
@@ -73,4 +92,6 @@ void ATilePool::BeginPlay()
     {
         AvailableTiles.Add(Tile);
     }
+
+    OnPoolRebuiltEvent().Broadcast();
 }
