@@ -10,6 +10,7 @@ void UTilePoolWidget::ClearTilePoolItemWidgets()
 
 void UTilePoolWidget::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
 {
+    // TODO: Implement custom WrapBox to reduce iterations and type casting
     for (int32 i = 0; i < TilePoolItemsContainer->GetChildrenCount(); ++i)
     {
         UTilePoolItemWidget* TilePoolWidget = Cast<UTilePoolItemWidget>(TilePoolItemsContainer->GetChildAt(i));
@@ -28,6 +29,7 @@ void UTilePoolWidget::AddTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWid
 
 void UTilePoolWidget::SortTilePoolItemWidgets()
 {
+    // TODO: Implement custom WrapBox to reduce iterations and type casting
     TArray<UTilePoolItemWidget*> TilePoolItemWidgets;
     for (UWidget* Widget : TilePoolItemsContainer->GetAllChildren())
     {
