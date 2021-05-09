@@ -8,6 +8,7 @@
 #include "EditorViewActor.generated.h"
 
 class UTilePoolWidget;
+class UTilePoolItemWidget;
 class AEditorModelActor;
 class ATileSpriteActor;
 class UPaperSprite;
@@ -45,7 +46,10 @@ protected:
     TArray<UPaperSprite*> TileSprites;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
-    TSubclassOf<UTilePoolWidget> TilePoolWidget;
+    TSubclassOf<UTilePoolWidget> TilePoolWidgetType;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+    TSubclassOf<UTilePoolItemWidget> TilePoolItemWidgetType;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     AEditorModelActor* ModelActor;
@@ -57,4 +61,5 @@ private:
 
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
     TArray<ATileSpriteActor*> TileSpriteActors;
+    UTilePoolWidget* TilePoolWidget;
 };

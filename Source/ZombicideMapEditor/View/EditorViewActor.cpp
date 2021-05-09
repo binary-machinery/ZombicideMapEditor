@@ -3,6 +3,7 @@
 #include "PaperSprite.h"
 #include "TileSpriteActor.h"
 #include "TilePoolWidget.h"
+#include "TilePoolItemWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "ZombicideMapEditor/Model/EditorModelActor.h"
@@ -34,11 +35,25 @@ void AEditorViewActor::BeginPlay()
         TileSpritesMap.Add(Model::FTileId(CardId, TileSide), TileSprite);
     }
 
-    UTilePoolWidget* Widget = CreateWidget<UTilePoolWidget>(GetWorld(), TilePoolWidget, FName(TEXT("TilePool")));
-    Widget->AddToViewport();
-
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
     PlayerController->SetShowMouseCursor(true);
+
+    TilePoolWidget = CreateWidget<UTilePoolWidget>(
+        GetWorld(),
+        TilePoolWidgetType,
+        FName(TEXT("TilePool"))
+    );
+    TilePoolWidget->AddToViewport();
+
+    for (const auto& Pair : TileSpritesMap)
+    {
+        UTilePoolItemWidget* TilePoolItemWidget = CreateWidget<UTilePoolItemWidget>(
+            TilePoolWidget,
+            TilePoolItemWidgetType
+        );
+        TilePoolWidget->AddTilePoolItemWidget(TilePoolItemWidget);
+        TilePoolItemWidget->SetSpriteTexture(Pair.Value->GetSourceTexture());
+    }
 }
 
 // Called every frame
