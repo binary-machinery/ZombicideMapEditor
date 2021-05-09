@@ -9,14 +9,11 @@
 #include "ZombicideMapEditor/Model/EditorModel.h"
 #include "ZombicideMapEditor/Model/TileData/Tile.h"
 
-// Sets default values
 AEditorView::AEditorView()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void AEditorView::BeginPlay()
 {
     Super::BeginPlay();
@@ -57,7 +54,6 @@ void AEditorView::BeginPlay()
     }
 }
 
-// Called every frame
 void AEditorView::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
