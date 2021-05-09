@@ -27,14 +27,14 @@ void AEditorView::BeginPlay()
         RebuildTilePoolItemWidgets();
     });
 
-    TilePool->OnTileAddedEvent().AddLambda([this](const Model::FTileId& TileId)
+    TilePool->OnTileAddedEvent().AddLambda([this](const Model::FTileId& TileId, const uint32 Index)
     {
-        AddTilePoolItemWidget(TileId);
+        AddTilePoolItemWidget(TileId, Index);
     });
 
-    TilePool->OnTileRemovedEvent().AddLambda([this](const Model::FTileId& TileId)
+    TilePool->OnTileRemovedEvent().AddLambda([this](const uint32 Index)
     {
-        RemoveTilePoolItemWidget(TileId);
+        RemoveTilePoolItemWidget(Index);
     });
 
     for (UPaperSprite* TileSprite : TileSprites)
@@ -105,23 +105,32 @@ void AEditorView::RebuildTilePoolItemWidgets()
     TilePoolWidget->ClearTilePoolItemWidgets();
     for (const Model::FTile* Tile : TilePool->GetAvailableTiles())
     {
-        AddTilePoolItemWidget(Tile->GetTileId());
+        UTilePoolItemWidget* TilePoolItemWidget = CreateWidget<UTilePoolItemWidget>(
+            TilePoolWidget,
+            TilePoolItemWidgetType
+        );
+        TilePoolWidget->AddTilePoolItemWidget(TilePoolItemWidget);
+
+        UPaperSprite* PaperSprite = TileSpritesMap[Tile->GetTileId()];
+        TilePoolItemWidget->SetTileId(Tile->GetTileId());
+        TilePoolItemWidget->SetTileTexture(PaperSprite->GetSourceTexture());
     }
 }
 
-void AEditorView::AddTilePoolItemWidget(const Model::FTileId& TileId)
+void AEditorView::AddTilePoolItemWidget(const Model::FTileId& TileId, const uint32 Index)
 {
     UTilePoolItemWidget* TilePoolItemWidget = CreateWidget<UTilePoolItemWidget>(
         TilePoolWidget,
         TilePoolItemWidgetType
     );
-    TilePoolWidget->AddTilePoolItemWidget(TilePoolItemWidget);
+    TilePoolWidget->InsertTilePoolItemWidget(TilePoolItemWidget, Index);
 
     UPaperSprite* PaperSprite = TileSpritesMap[TileId];
     TilePoolItemWidget->SetTileId(TileId);
     TilePoolItemWidget->SetTileTexture(PaperSprite->GetSourceTexture());
 }
 
-void AEditorView::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
+void AEditorView::RemoveTilePoolItemWidget(const uint32 Index)
 {
+    TilePoolWidget->RemoveTilePoolItemWidget(Index);
 }

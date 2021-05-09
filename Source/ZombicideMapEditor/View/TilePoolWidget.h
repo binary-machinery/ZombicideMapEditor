@@ -7,7 +7,7 @@
 #include "TilePoolWidget.generated.h"
 
 class UTilePoolItemWidget;
-class UWrapBox;
+class UPanelWidget;
 
 UCLASS()
 class ZOMBICIDEMAPEDITOR_API UTilePoolWidget : public UUserWidget
@@ -16,9 +16,11 @@ class ZOMBICIDEMAPEDITOR_API UTilePoolWidget : public UUserWidget
 
 public:
     void ClearTilePoolItemWidgets();
+    void RemoveTilePoolItemWidget(const uint32 Index);
     void AddTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget);
+    void InsertTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget, const uint32 Index);
 
 protected:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
-    UWrapBox* TilePoolItemsContainer;
+    UPanelWidget* TilePoolItemsContainer;
 };

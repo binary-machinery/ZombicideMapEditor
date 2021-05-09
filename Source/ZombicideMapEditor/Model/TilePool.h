@@ -20,9 +20,9 @@ class ZOMBICIDEMAPEDITOR_API ATilePool : public AActor
 public:
     DECLARE_EVENT(ATilePool, FPoolRebuiltEvent)
 
-    DECLARE_EVENT_OneParam(ATilePool, FTileAddedEvent, const Model::FTileId&)
+    DECLARE_EVENT_TwoParams(ATilePool, FTileAddedEvent, const Model::FTileId&, uint32)
 
-    DECLARE_EVENT_OneParam(ATilePool, FTileRemovedEvent, const Model::FTileId&)
+    DECLARE_EVENT_OneParam(ATilePool, FTileRemovedEvent, uint32)
 
     ATilePool();
     const TArray<const Model::FTile*>& GetAvailableTiles() const;
@@ -38,6 +38,9 @@ public:
 
 protected:
     virtual void BeginPlay() override;
+
+private:
+    void SortAvailableTiles();
 
 protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")

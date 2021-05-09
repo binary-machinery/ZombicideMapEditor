@@ -20,7 +20,8 @@ const Model::FTile* ATilePool::TakeTileFromPool(const Model::FTileId& TileId)
     }
 
     const Model::FTile* Tile = *TilePtr; // Copy pointer before we modify AvailableTiles memory
-    AvailableTiles.Remove(Tile); // We modify the collection, TilePtr cannot be used anymore
+    const uint32 Index = AvailableTiles.Find(Tile);
+    AvailableTiles.RemoveAt(Index); // We modify the collection, TilePtr cannot be used anymore
 
     const Model::FTile** OtherSideTilePtr = AvailableTiles.FindByKey(TileId.GetOtherSideTileId());
     if (OtherSideTilePtr)
@@ -30,7 +31,7 @@ const Model::FTile* ATilePool::TakeTileFromPool(const Model::FTileId& TileId)
         UnavailableTiles.Add(OtherSideTile);
     }
 
-    OnTileRemovedEvent().Broadcast(Tile->GetTileId());
+    OnTileRemovedEvent().Broadcast(Index);
     return Tile;
 }
 
@@ -57,7 +58,9 @@ void ATilePool::ReturnTileToPool(const Model::FTile* Tile)
         AvailableTiles.Add(OtherSideTile);
     }
 
-    OnTileAddedEvent().Broadcast(Tile->GetTileId());
+    SortAvailableTiles();
+    const uint32 Index = AvailableTiles.Find(Tile);
+    OnTileAddedEvent().Broadcast(Tile->GetTileId(), Index);
 }
 
 ATilePool::FPoolRebuiltEvent& ATilePool::OnPoolRebuiltEvent()
@@ -93,5 +96,14 @@ void ATilePool::BeginPlay()
         AvailableTiles.Add(Tile);
     }
 
+    SortAvailableTiles();
     OnPoolRebuiltEvent().Broadcast();
+}
+
+void ATilePool::SortAvailableTiles()
+{
+    AvailableTiles.Sort([](const Model::FTile& Tile1, const Model::FTile& Tile2)
+    {
+        return Tile1.GetTileId() < Tile2.GetTileId();
+    });
 }
