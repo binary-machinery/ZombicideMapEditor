@@ -7,9 +7,10 @@
 
 #include "EditorView.generated.h"
 
+class ATilePool;
 class UTilePoolWidget;
 class UTilePoolItemWidget;
-class AEditorModelActor;
+class AEditorModel;
 class ATileSpriteActor;
 class UPaperSprite;
 
@@ -52,7 +53,10 @@ protected:
     TSubclassOf<UTilePoolItemWidget> TilePoolItemWidgetType;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
-    AEditorModelActor* ModelActor;
+    AEditorModel* ModelActor;
+
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
+    ATilePool* TilePool;
 
 private:
     void RedrawMap();

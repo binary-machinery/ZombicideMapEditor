@@ -4,21 +4,21 @@
 #include "GameFramework/Actor.h"
 #include "MapData/Map.h"
 
-#include "EditorModelActor.generated.h"
+#include "EditorModel.generated.h"
 
 class AMapGenerator;
 
 UCLASS()
-class ZOMBICIDEMAPEDITOR_API AEditorModelActor : public AActor
+class ZOMBICIDEMAPEDITOR_API AEditorModel : public AActor
 {
     GENERATED_BODY()
 
 public:
-    DECLARE_EVENT(AEditorModelActor, FGeneratedMapEvent)
+    DECLARE_EVENT(AEditorModel, FGeneratedMapEvent)
 
-    DECLARE_EVENT(AEditorModelActor, FGeneratedNextTileEvent)
+    DECLARE_EVENT(AEditorModel, FGeneratedNextTileEvent)
 
-    AEditorModelActor();
+    AEditorModel();
 
     const Model::FMap& GetMap() const;
     void GenerateNextTile();

@@ -6,7 +6,7 @@
 #include "TilePoolItemWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
-#include "ZombicideMapEditor/Model/EditorModelActor.h"
+#include "ZombicideMapEditor/Model/EditorModel.h"
 #include "ZombicideMapEditor/Model/TileData/Tile.h"
 
 // Sets default values
