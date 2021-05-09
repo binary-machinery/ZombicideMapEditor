@@ -1,4 +1,4 @@
-#include "EditorViewActor.h"
+#include "EditorView.h"
 
 #include "PaperSprite.h"
 #include "TileSpriteActor.h"
@@ -10,14 +10,14 @@
 #include "ZombicideMapEditor/Model/TileData/Tile.h"
 
 // Sets default values
-AEditorViewActor::AEditorViewActor()
+AEditorView::AEditorView()
 {
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
-void AEditorViewActor::BeginPlay()
+void AEditorView::BeginPlay()
 {
     Super::BeginPlay();
 
@@ -58,12 +58,12 @@ void AEditorViewActor::BeginPlay()
 }
 
 // Called every frame
-void AEditorViewActor::Tick(float DeltaTime)
+void AEditorView::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 }
 
-void AEditorViewActor::RedrawMap()
+void AEditorView::RedrawMap()
 {
     for (ATileSpriteActor* TileSpriteActor : TileSpriteActors)
     {
@@ -85,7 +85,7 @@ void AEditorViewActor::RedrawMap()
     }
 }
 
-void AEditorViewActor::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
+void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
                                    const Model::EMapTileRotation Rotation)
 {
     ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(

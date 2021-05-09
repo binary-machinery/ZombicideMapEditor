@@ -5,7 +5,7 @@
 #include "ZombicideMapEditor/Model/MapData/MapTileRotation.h"
 #include "ZombicideMapEditor/Model/TileData/TileId.h"
 
-#include "EditorViewActor.generated.h"
+#include "EditorView.generated.h"
 
 class UTilePoolWidget;
 class UTilePoolItemWidget;
@@ -19,12 +19,12 @@ namespace Model
 }
 
 UCLASS()
-class ZOMBICIDEMAPEDITOR_API AEditorViewActor : public AActor
+class ZOMBICIDEMAPEDITOR_API AEditorView : public AActor
 {
     GENERATED_BODY()
 
 public:
-    AEditorViewActor();
+    AEditorView();
 
 protected:
     virtual void BeginPlay() override;
