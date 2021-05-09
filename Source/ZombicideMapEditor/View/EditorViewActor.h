@@ -32,12 +32,6 @@ public:
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    AEditorModelActor* ModelActor;
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    TArray<UPaperSprite*> TileSprites;
-
-    UPROPERTY(EditAnywhere, BlueprintReadOnly)
     float MapOffsetX = -250;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -45,6 +39,15 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     float MapTileSize = 250;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+    TArray<UPaperSprite*> TileSprites;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+    TSubclassOf<UUserWidget> TilePoolWidget;
+
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    AEditorModelActor* ModelActor;
 
 private:
     void RedrawMap();

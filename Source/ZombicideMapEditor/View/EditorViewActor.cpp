@@ -2,6 +2,8 @@
 
 #include "PaperSprite.h"
 #include "TileSpriteActor.h"
+#include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 #include "ZombicideMapEditor/Model/EditorModelActor.h"
 #include "ZombicideMapEditor/Model/TileData/Tile.h"
 
@@ -30,6 +32,12 @@ void AEditorViewActor::BeginPlay()
         const int32 CardId = FCString::Atoi(*TileName);
         TileSpritesMap.Add(Model::FTileId(CardId, TileSide), TileSprite);
     }
+
+    UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), TilePoolWidget, FName(TEXT("TilePool")));
+    Widget->AddToViewport();
+
+    APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+    PlayerController->SetShowMouseCursor(true);
 }
 
 // Called every frame
