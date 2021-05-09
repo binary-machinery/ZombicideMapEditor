@@ -3,17 +3,22 @@
 
 #include "EditorModelActor.h"
 
-// Sets default values
+#include "MapGenerator.h"
+
 AEditorModelActor::AEditorModelActor()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
+}
 
-    Map = MakeUnique<Model::FMap>(3, 3);
-    MapGenerator.SetMap(Map.Get());
-    MapGenerator.SetTilePool(&TilePool);
+const Model::FMap& AEditorModelActor::GetMap() const
+{
+    return *Map;
+}
 
-    TilePool.Init(TileRegistry);
+void AEditorModelActor::GenerateNextTile()
+{
+    MapGenerator->GenerateNextTile();
+    GeneratedNextTileEvent.Broadcast();
 }
 
 AEditorModelActor::FGeneratedMapEvent& AEditorModelActor::OnGeneratedMapEvent()
@@ -26,29 +31,35 @@ AEditorModelActor::FGeneratedNextTileEvent& AEditorModelActor::OnGeneratedNextTi
     return GeneratedNextTileEvent;
 }
 
-// Called when the game starts or when spawned
+void AEditorModelActor::PostInitializeComponents()
+{
+    Super::PostInitializeComponents();
+    UE_LOG(LogTemp, Warning, TEXT("AEditorModelActor::PostInitializeComponents"));
+
+    if (GetWorld()->IsGameWorld())
+    {
+        Map = MakeUnique<Model::FMap>(3, 3);
+        MapGenerator->SetMap(Map.Get());
+    }
+}
+
 void AEditorModelActor::BeginPlay()
 {
     Super::BeginPlay();
+
+    UE_LOG(LogTemp, Warning, TEXT("AEditorModelActor::BeginPlay"));
 
     GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModelActor::GenerateNextTile,
                                     GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
 }
 
-void AEditorModelActor::GenerateNextTile()
-{
-    MapGenerator.GenerateNextTile();
-    GeneratedNextTileEvent.Broadcast();
-}
-
-// Called every frame
 void AEditorModelActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
     if (!bGenerated)
     {
-        MapGenerator.Generate();
+        MapGenerator->Generate();
         bGenerated = true;
         GeneratedMapEvent.Broadcast();
     }

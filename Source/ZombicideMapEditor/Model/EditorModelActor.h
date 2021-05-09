@@ -1,14 +1,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "MapGenerator.h"
-#include "TilePool.h"
-#include "TileRegistry.h"
 #include "GameFramework/Actor.h"
 #include "MapData/Map.h"
 
 #include "EditorModelActor.generated.h"
+
+class AMapGenerator;
 
 UCLASS()
 class ZOMBICIDEMAPEDITOR_API AEditorModelActor : public AActor
@@ -20,34 +18,31 @@ public:
 
     DECLARE_EVENT(AEditorModelActor, FGeneratedNextTileEvent)
 
-    // Sets default values for this actor's properties
     AEditorModelActor();
+
+    const Model::FMap& GetMap() const;
+    void GenerateNextTile();
 
     FGeneratedMapEvent& OnGeneratedMapEvent();
     FGeneratedNextTileEvent& OnGeneratedNextTileEvent();
 
+    virtual void PostInitializeComponents() override;
+
 protected:
+    virtual void BeginPlay() override;
+
+public:
+    virtual void Tick(float DeltaTime) override;
+
+protected:
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    AMapGenerator* MapGenerator;
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     float GenerateNextTileTimeInterval = 0.2f;
 
-    // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
-    void GenerateNextTile();
-
-public:
-    // Called every frame
-    virtual void Tick(float DeltaTime) override;
-
-    const Model::FMap& GetMap() const
-    {
-        return *Map;
-    };
-
 private:
     TUniquePtr<Model::FMap> Map;
-    Model::FTileRegistry TileRegistry;
-    Model::FTilePool TilePool;
-    Model::FMapGenerator MapGenerator;
 
     bool bGenerated = false;
     FTimerHandle GenerateNextTileTimerHandle;

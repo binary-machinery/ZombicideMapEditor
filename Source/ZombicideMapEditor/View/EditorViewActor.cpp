@@ -3,6 +3,7 @@
 #include "PaperSprite.h"
 #include "TileSpriteActor.h"
 #include "ZombicideMapEditor/Model/EditorModelActor.h"
+#include "ZombicideMapEditor/Model/TileData/Tile.h"
 
 // Sets default values
 AEditorViewActor::AEditorViewActor()
