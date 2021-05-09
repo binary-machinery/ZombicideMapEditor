@@ -1,9 +1,25 @@
 ﻿#include "TileId.h"
 
+Model::FTileId::FTileId()
+    : CardId(-1),
+      Side(ETileSide::V)
+{
+}
+
 Model::FTileId::FTileId(const uint32 CardId, const ETileSide Side)
     : CardId(CardId),
       Side(Side)
 {
+}
+
+uint32 Model::FTileId::GetCardId() const
+{
+    return CardId;
+}
+
+Model::ETileSide Model::FTileId::GetSide() const
+{
+    return Side;
 }
 
 Model::FTileId Model::FTileId::GetOtherSideTileId() const

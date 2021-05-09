@@ -8,9 +8,17 @@ void UTilePoolWidget::ClearTilePoolItemWidgets()
     TilePoolItemsContainer->ClearChildren();
 }
 
-void UTilePoolWidget::RemoveTilePoolItemWidget(const uint32 Index)
+void UTilePoolWidget::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
 {
-    TilePoolItemsContainer->RemoveChildAt(Index);
+    for (int32 i = 0; i < TilePoolItemsContainer->GetChildrenCount(); ++i)
+    {
+        UTilePoolItemWidget* TilePoolWidget = Cast<UTilePoolItemWidget>(TilePoolItemsContainer->GetChildAt(i));
+        if (TilePoolWidget->GetTileId() == TileId)
+        {
+            TilePoolItemsContainer->RemoveChildAt(i);
+            break;
+        }
+    }
 }
 
 void UTilePoolWidget::AddTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget)
@@ -18,14 +26,21 @@ void UTilePoolWidget::AddTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWid
     TilePoolItemsContainer->AddChild(TilePoolItemWidget);
 }
 
-void UTilePoolWidget::InsertTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget, const uint32 Index)
+void UTilePoolWidget::SortTilePoolItemWidgets()
 {
-    // UPanelWidget::InsertChildAt(...) doesn't work
-    // This is a workaround
-    TArray<UWidget*> Widgets = TilePoolItemsContainer->GetAllChildren();
-    Widgets.Insert(TilePoolItemWidget, Index);
+    TArray<UTilePoolItemWidget*> TilePoolItemWidgets;
+    for (UWidget* Widget : TilePoolItemsContainer->GetAllChildren())
+    {
+        TilePoolItemWidgets.Add(Cast<UTilePoolItemWidget>(Widget));
+    }
     TilePoolItemsContainer->ClearChildren();
-    for (UWidget* Widget : Widgets)
+
+    TilePoolItemWidgets.Sort([](const UTilePoolItemWidget& Widget1, const UTilePoolItemWidget& Widget2)
+    {
+        return Widget1.GetTileId() < Widget2.GetTileId();
+    });
+
+    for (UTilePoolItemWidget* Widget : TilePoolItemWidgets)
     {
         TilePoolItemsContainer->AddChild(Widget);
     }

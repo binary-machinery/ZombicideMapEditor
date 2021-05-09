@@ -6,6 +6,10 @@
 
 #include "TilePoolWidget.generated.h"
 
+namespace Model {
+    class FTileId;
+}
+
 class UTilePoolItemWidget;
 class UPanelWidget;
 
@@ -16,9 +20,9 @@ class ZOMBICIDEMAPEDITOR_API UTilePoolWidget : public UUserWidget
 
 public:
     void ClearTilePoolItemWidgets();
-    void RemoveTilePoolItemWidget(const uint32 Index);
+    void RemoveTilePoolItemWidget(const Model::FTileId& TileId);
     void AddTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget);
-    void InsertTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget, const uint32 Index);
+    void SortTilePoolItemWidgets();
 
 protected:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)

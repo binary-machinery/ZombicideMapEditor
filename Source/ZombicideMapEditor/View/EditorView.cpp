@@ -25,16 +25,18 @@ void AEditorView::BeginPlay()
     TilePool->OnPoolRebuiltEvent().AddLambda([this]()
     {
         RebuildTilePoolItemWidgets();
+        TilePoolWidget->SortTilePoolItemWidgets();
     });
 
-    TilePool->OnTileAddedEvent().AddLambda([this](const Model::FTileId& TileId, const uint32 Index)
+    TilePool->OnTileAddedEvent().AddLambda([this](const Model::FTileId& TileId)
     {
-        AddTilePoolItemWidget(TileId, Index);
+        AddTilePoolItemWidget(TileId);
+        TilePoolWidget->SortTilePoolItemWidgets();
     });
 
-    TilePool->OnTileRemovedEvent().AddLambda([this](const uint32 Index)
+    TilePool->OnTileRemovedEvent().AddLambda([this](const Model::FTileId& TileId)
     {
-        RemoveTilePoolItemWidget(Index);
+        RemoveTilePoolItemWidget(TileId);
     });
 
     for (UPaperSprite* TileSprite : TileSprites)
@@ -117,20 +119,20 @@ void AEditorView::RebuildTilePoolItemWidgets()
     }
 }
 
-void AEditorView::AddTilePoolItemWidget(const Model::FTileId& TileId, const uint32 Index)
+void AEditorView::AddTilePoolItemWidget(const Model::FTileId& TileId)
 {
     UTilePoolItemWidget* TilePoolItemWidget = CreateWidget<UTilePoolItemWidget>(
         TilePoolWidget,
         TilePoolItemWidgetType
     );
-    TilePoolWidget->InsertTilePoolItemWidget(TilePoolItemWidget, Index);
+    TilePoolWidget->AddTilePoolItemWidget(TilePoolItemWidget);
 
     UPaperSprite* PaperSprite = TileSpritesMap[TileId];
     TilePoolItemWidget->SetTileId(TileId);
     TilePoolItemWidget->SetTileTexture(PaperSprite->GetSourceTexture());
 }
 
-void AEditorView::RemoveTilePoolItemWidget(const uint32 Index)
+void AEditorView::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
 {
-    TilePoolWidget->RemoveTilePoolItemWidget(Index);
+    TilePoolWidget->RemoveTilePoolItemWidget(TileId);
 }

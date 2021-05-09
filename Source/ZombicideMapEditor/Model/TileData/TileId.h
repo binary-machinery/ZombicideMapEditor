@@ -6,19 +6,12 @@ namespace Model
     class FTileId
     {
     public:
+        FTileId();
         FTileId(const uint32 CardId, const ETileSide Side);
+
+        uint32 GetCardId() const;
+        ETileSide GetSide() const;
         FTileId GetOtherSideTileId() const;
-
-        uint32 GetCardId() const
-        {
-            return CardId;
-        }
-
-        ETileSide GetSide() const
-        {
-            return Side;
-        }
-
         FString ToString() const;
 
         friend bool operator==(const FTileId& Lhs, const FTileId& Rhs)
@@ -42,7 +35,7 @@ namespace Model
         }
 
     private:
-        const uint32 CardId;
-        const ETileSide Side;
+        uint32 CardId;
+        ETileSide Side;
     };
 }

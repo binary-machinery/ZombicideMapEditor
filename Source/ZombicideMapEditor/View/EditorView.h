@@ -64,8 +64,8 @@ private:
                      const Model::EMapTileRotation Rotation);
 
     void RebuildTilePoolItemWidgets();
-    void AddTilePoolItemWidget(const Model::FTileId& TileId, const uint32 Index);
-    void RemoveTilePoolItemWidget(const uint32 Index);
+    void AddTilePoolItemWidget(const Model::FTileId& TileId);
+    void RemoveTilePoolItemWidget(const Model::FTileId& TileId);
 
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
     TArray<ATileSpriteActor*> TileSpriteActors;

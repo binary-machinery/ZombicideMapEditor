@@ -29,9 +29,10 @@ const Model::FTile* ATilePool::TakeTileFromPool(const Model::FTileId& TileId)
         const Model::FTile* OtherSideTile = *OtherSideTilePtr; // Copy pointer before we modify AvailableTiles memory
         AvailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
         UnavailableTiles.Add(OtherSideTile);
+        OnTileRemovedEvent().Broadcast(OtherSideTile->GetTileId());
     }
 
-    OnTileRemovedEvent().Broadcast(Index);
+    OnTileRemovedEvent().Broadcast(TileId);
     return Tile;
 }
 
@@ -56,11 +57,11 @@ void ATilePool::ReturnTileToPool(const Model::FTile* Tile)
         const Model::FTile* OtherSideTile = *OtherSideTilePtr; // Copy pointer before we modify UnavailableTiles memory
         UnavailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
         AvailableTiles.Add(OtherSideTile);
+        OnTileAddedEvent().Broadcast(OtherSideTile->GetTileId());
     }
 
     SortAvailableTiles();
-    const uint32 Index = AvailableTiles.Find(Tile);
-    OnTileAddedEvent().Broadcast(Tile->GetTileId(), Index);
+    OnTileAddedEvent().Broadcast(Tile->GetTileId());
 }
 
 ATilePool::FPoolRebuiltEvent& ATilePool::OnPoolRebuiltEvent()
