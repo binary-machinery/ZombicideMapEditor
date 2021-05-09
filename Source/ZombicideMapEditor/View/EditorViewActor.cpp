@@ -52,7 +52,8 @@ void AEditorViewActor::BeginPlay()
             TilePoolItemWidgetType
         );
         TilePoolWidget->AddTilePoolItemWidget(TilePoolItemWidget);
-        TilePoolItemWidget->SetSpriteTexture(Pair.Value->GetSourceTexture());
+        TilePoolItemWidget->SetTileId(Pair.Key);
+        TilePoolItemWidget->SetTileTexture(Pair.Value->GetSourceTexture());
     }
 }
 

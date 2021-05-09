@@ -19,6 +19,8 @@ namespace Model
             return Side;
         }
 
+        FString ToString() const;
+
         friend bool operator==(const FTileId& Lhs, const FTileId& Rhs)
         {
             return Lhs.CardId == Rhs.CardId
