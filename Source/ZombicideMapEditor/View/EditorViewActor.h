@@ -47,7 +47,7 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
     TSubclassOf<UTilePoolWidget> TilePoolWidget;
 
-    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     AEditorModelActor* ModelActor;
 
 private:

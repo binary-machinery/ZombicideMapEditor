@@ -32,7 +32,7 @@ public:
     virtual void Tick(float DeltaTime) override;
 
 protected:
-    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ATilePool* TilePool;
 
 private:

@@ -30,7 +30,7 @@ protected:
     virtual void BeginPlay() override;
 
 protected:
-    UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ATileRegistry* TileRegistry;
 
 private:
