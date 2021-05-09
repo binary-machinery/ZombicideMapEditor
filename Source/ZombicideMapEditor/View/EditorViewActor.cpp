@@ -2,6 +2,7 @@
 
 #include "PaperSprite.h"
 #include "TileSpriteActor.h"
+#include "TilePoolWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "ZombicideMapEditor/Model/EditorModelActor.h"
@@ -33,7 +34,7 @@ void AEditorViewActor::BeginPlay()
         TileSpritesMap.Add(Model::FTileId(CardId, TileSide), TileSprite);
     }
 
-    UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), TilePoolWidget, FName(TEXT("TilePool")));
+    UTilePoolWidget* Widget = CreateWidget<UTilePoolWidget>(GetWorld(), TilePoolWidget, FName(TEXT("TilePool")));
     Widget->AddToViewport();
 
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);

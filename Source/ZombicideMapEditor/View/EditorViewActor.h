@@ -7,6 +7,7 @@
 
 #include "EditorViewActor.generated.h"
 
+class UTilePoolWidget;
 class AEditorModelActor;
 class ATileSpriteActor;
 class UPaperSprite;
@@ -44,7 +45,7 @@ protected:
     TArray<UPaperSprite*> TileSprites;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
-    TSubclassOf<UUserWidget> TilePoolWidget;
+    TSubclassOf<UTilePoolWidget> TilePoolWidget;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly)
     AEditorModelActor* ModelActor;
