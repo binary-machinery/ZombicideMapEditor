@@ -63,11 +63,9 @@ void AEditorViewActor::RedrawMap()
 void AEditorViewActor::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
                                    const Model::EMapTileRotation Rotation)
 {
-    const float OffsetX = 250;
-    const float OffsetY = 125;
     ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
         ATileSpriteActor::StaticClass(),
-        FVector(X * 250 - OffsetX, 0, Y * 250 - OffsetY),
+        FVector(X * MapTileSize + MapOffsetX, 0, Y * MapTileSize + MapOffsetY),
         FRotator::MakeFromEuler(FVector(0, static_cast<float>(Rotation), 0))
     );
     TileSpriteActor->SetSprite(TileSpritesMap[TileId]);

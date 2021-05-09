@@ -22,8 +22,13 @@ class ZOMBICIDEMAPEDITOR_API AEditorViewActor : public AActor
     GENERATED_BODY()
 
 public:
-    // Sets default values for this actor's properties
     AEditorViewActor();
+
+protected:
+    virtual void BeginPlay() override;
+
+public:
+    virtual void Tick(float DeltaTime) override;
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -32,12 +37,14 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     TArray<UPaperSprite*> TileSprites;
 
-    // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    float MapOffsetX = -250;
 
-public:
-    // Called every frame
-    virtual void Tick(float DeltaTime) override;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    float MapOffsetY = -125;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    float MapTileSize = 250;
 
 private:
     void RedrawMap();
