@@ -25,6 +25,11 @@ void UTilePoolWidget::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
 void UTilePoolWidget::AddTilePoolItemWidget(UTilePoolItemWidget* TilePoolItemWidget)
 {
     TilePoolItemsContainer->AddChild(TilePoolItemWidget);
+    TilePoolItemWidget->OnClickedEvent().AddLambda([](const Model::FTileId& TileId)
+    {
+        // TODO: implement
+        UE_LOG(LogTemp, Warning, TEXT("Clicked: %s"), *TileId.ToString());
+    });
 }
 
 void UTilePoolWidget::SortTilePoolItemWidgets()
