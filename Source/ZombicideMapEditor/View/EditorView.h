@@ -67,7 +67,15 @@ private:
     void AddTilePoolItemWidget(const Model::FTileId& TileId);
     void RemoveTilePoolItemWidget(const Model::FTileId& TileId);
 
+    void OnSelectedTileChanged(const Model::FTileId& TileId);
+
+    uint32 WorldXToGridIndexX(const float WorldX);
+    uint32 WorldZToGridIndexY(const float WorldZ);
+    float GridIndexXToWorldX(const uint32 GridIndexX);
+    float GridIndexYToWorldZ(const uint32 GridIndexY);
+
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
     TArray<ATileSpriteActor*> TileSpriteActors;
+    ATileSpriteActor* SelectedTileSpriteActor;
     UTilePoolWidget* TilePoolWidget;
 };

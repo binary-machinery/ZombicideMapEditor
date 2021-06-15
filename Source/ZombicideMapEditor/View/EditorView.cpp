@@ -59,6 +59,10 @@ void AEditorView::BeginPlay()
         FName(TEXT("TilePool"))
     );
     TilePoolWidget->AddToViewport();
+    TilePoolWidget->OnTileSelectedEvent().AddLambda([this](const Model::FTileId& TileId)
+    {
+        OnSelectedTileChanged(TileId);
+    });
 
     RebuildTilePoolItemWidgets();
 }
@@ -66,6 +70,20 @@ void AEditorView::BeginPlay()
 void AEditorView::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
+    if (SelectedTileSpriteActor != nullptr)
+    {
+        APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+        FVector WorldPosition, WorldDirection;
+        PlayerController->DeprojectMousePositionToWorld(WorldPosition, WorldDirection);
+
+        // Snap to the grid
+        const float X = GridIndexXToWorldX(WorldXToGridIndexX(WorldPosition.X));
+        const float Y = SelectedTileSpriteActor->GetActorLocation().Y;
+        const float Z = GridIndexYToWorldZ(WorldZToGridIndexY(WorldPosition.Z));
+
+        SelectedTileSpriteActor->SetActorLocation(FVector(X, Y, Z));
+    }
 }
 
 void AEditorView::RedrawMap()
@@ -95,7 +113,7 @@ void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTile
 {
     ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
         ATileSpriteActor::StaticClass(),
-        FVector(X * MapTileSize + MapOffsetX, 0, Y * MapTileSize + MapOffsetY),
+        FVector(GridIndexXToWorldX(X), 0, GridIndexYToWorldZ(Y)),
         FRotator::MakeFromEuler(FVector(0, static_cast<float>(Rotation), 0))
     );
     TileSpriteActor->SetSprite(TileSpritesMap[TileId]);
@@ -135,4 +153,37 @@ void AEditorView::AddTilePoolItemWidget(const Model::FTileId& TileId)
 void AEditorView::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
 {
     TilePoolWidget->RemoveTilePoolItemWidget(TileId);
+}
+
+void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
+{
+    if (SelectedTileSpriteActor == nullptr)
+    {
+        SelectedTileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
+            ATileSpriteActor::StaticClass(),
+            FVector(0, 1, 0),
+            FRotator::ZeroRotator
+        );
+    }
+    SelectedTileSpriteActor->SetSprite(TileSpritesMap[TileId]);
+}
+
+uint32 AEditorView::WorldXToGridIndexX(const float WorldX)
+{
+    return FMath::FloorToInt((WorldX - MapOffsetX + MapTileSize / 2) / MapTileSize);
+}
+
+uint32 AEditorView::WorldZToGridIndexY(const float WorldZ)
+{
+    return FMath::FloorToInt((WorldZ - MapOffsetY + MapTileSize / 2) / MapTileSize);
+}
+
+float AEditorView::GridIndexXToWorldX(const uint32 GridIndexX)
+{
+    return GridIndexX * MapTileSize + MapOffsetX;
+}
+
+float AEditorView::GridIndexYToWorldZ(const uint32 GridIndexY)
+{
+    return GridIndexY * MapTileSize + MapOffsetY;
 }
