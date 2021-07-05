@@ -52,6 +52,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
     TSubclassOf<UTilePoolItemWidget> TilePoolItemWidgetType;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+    TSubclassOf<ATileSpriteActor> SelectedTileActorType;
+
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     AEditorModel* ModelActor;
 
@@ -75,10 +78,10 @@ private:
 
     void OnSelectedTileChanged(const Model::FTileId& TileId);
 
-    uint32 WorldXToGridIndexX(const float WorldX);
-    uint32 WorldZToGridIndexY(const float WorldZ);
-    float GridIndexXToWorldX(const uint32 GridIndexX);
-    float GridIndexYToWorldZ(const uint32 GridIndexY);
+    int32 WorldXToGridIndexX(const float WorldX);
+    int32 WorldZToGridIndexY(const float WorldZ);
+    float GridIndexXToWorldX(const int32 GridIndexX);
+    float GridIndexYToWorldZ(const int32 GridIndexY);
 
     TMap<Model::FTileId, UPaperSprite*> TileSpritesMap;
     TArray<ATileSpriteActor*> TileSpriteActors;

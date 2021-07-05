@@ -81,11 +81,21 @@ void AEditorView::Tick(float DeltaTime)
         PlayerController->DeprojectMousePositionToWorld(WorldPosition, WorldDirection);
 
         // Snap to the grid
-        const float X = GridIndexXToWorldX(WorldXToGridIndexX(WorldPosition.X));
+        const int32 IndexX = WorldXToGridIndexX(WorldPosition.X);
+        const int32 IndexY = WorldZToGridIndexY(WorldPosition.Z);
+        if (IndexX < 0 || static_cast<uint32>(IndexX) >= ModelActor->GetMap().GetSizeX()
+            || IndexY < 0 || static_cast<uint32>(IndexY) >= ModelActor->GetMap().GetSizeY())
+        {
+            SelectedTileSpriteActor->SetActorHiddenInGame(true);
+            return;
+        }
+
+        const float X = GridIndexXToWorldX(IndexX);
         const float Y = SelectedTileSpriteActor->GetActorLocation().Y;
-        const float Z = GridIndexYToWorldZ(WorldZToGridIndexY(WorldPosition.Z));
+        const float Z = GridIndexYToWorldZ(IndexY);
 
         SelectedTileSpriteActor->SetActorLocation(FVector(X, Y, Z));
+        SelectedTileSpriteActor->SetActorHiddenInGame(false);
     }
 }
 
@@ -196,7 +206,7 @@ void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
     if (SelectedTileSpriteActor == nullptr)
     {
         SelectedTileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
-            ATileSpriteActor::StaticClass(),
+            SelectedTileActorType,
             FVector(0, 1, 0),
             FRotator::ZeroRotator
         );
@@ -204,32 +214,22 @@ void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
     SelectedTileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
 }
 
-uint32 AEditorView::WorldXToGridIndexX(const float WorldX)
+int32 AEditorView::WorldXToGridIndexX(const float WorldX)
 {
-    return FMath::Clamp<int32>(
-        FMath::FloorToInt((WorldX - MapOffsetX + MapTileSize / 2) / MapTileSize),
-        0,
-        ModelActor->GetMap().GetSizeX() - 1
-    );
+    return FMath::FloorToInt((WorldX - MapOffsetX + MapTileSize / 2) / MapTileSize);
 }
 
-uint32 AEditorView::WorldZToGridIndexY(const float WorldZ)
+int32 AEditorView::WorldZToGridIndexY(const float WorldZ)
 {
-    return FMath::Clamp<int32>(
-        FMath::FloorToInt((WorldZ - MapOffsetY + MapTileSize / 2) / MapTileSize),
-        0,
-        ModelActor->GetMap().GetSizeY() - 1
-    );
+    return FMath::FloorToInt((WorldZ - MapOffsetY + MapTileSize / 2) / MapTileSize);
 }
 
-float AEditorView::GridIndexXToWorldX(const uint32 GridIndexX)
+float AEditorView::GridIndexXToWorldX(const int32 GridIndexX)
 {
-    const uint32 ClampedIndexX = FMath::Clamp<int32>(GridIndexX, 0, ModelActor->GetMap().GetSizeX() - 1);
-    return ClampedIndexX * MapTileSize + MapOffsetX;
+    return GridIndexX * MapTileSize + MapOffsetX;
 }
 
-float AEditorView::GridIndexYToWorldZ(const uint32 GridIndexY)
+float AEditorView::GridIndexYToWorldZ(const int32 GridIndexY)
 {
-    const uint32 ClampedIndexY = FMath::Clamp<int32>(GridIndexY, 0, ModelActor->GetMap().GetSizeY() - 1);
-    return ClampedIndexY * MapTileSize + MapOffsetY;
+    return GridIndexY * MapTileSize + MapOffsetY;
 }
