@@ -1,8 +1,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include <array>
+
 #include "GameFramework/Actor.h"
 #include "ZombicideMapEditor/Model/TileData/TileId.h"
+#include "ZombicideMapEditor/Model/MapData/MapTileRotation.h"
 
 #include "TileSpriteActor.generated.h"
 
@@ -19,20 +23,18 @@ public:
     ATileSpriteActor();
 
     void SetTileData(const Model::FTileId& TileId, UPaperSprite* Sprite);
+    void Rotate();
 
     const Model::FTileId& GetTileId() const;
+    Model::EMapTileRotation GetRotation() const;
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     UPaperSpriteComponent* SpriteComponent;
 
-    // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
-
-public:
-    // Called every frame
-    virtual void Tick(float DeltaTime) override;
-
 private:
+    static std::array<Model::EMapTileRotation, 4> AvailableRotations;
+
     Model::FTileId TileId;
+    uint32 RotationIndex = 0;
 };

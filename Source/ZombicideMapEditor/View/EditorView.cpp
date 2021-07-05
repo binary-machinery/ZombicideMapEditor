@@ -53,6 +53,8 @@ void AEditorView::BeginPlay()
     PlayerController->SetShowMouseCursor(true);
     PlayerController->InputComponent->BindAction("MouseLeftButtonClick", IE_Released, this,
                                                  &AEditorView::OnMouseLeftButtonClick);
+    PlayerController->InputComponent->BindAction("MouseRightButtonClick", IE_Released, this,
+                                                 &AEditorView::OnMouseRightButtonClick);
 
     TilePoolWidget = CreateWidget<UTilePoolWidget>(
         GetWorld(),
@@ -89,23 +91,34 @@ void AEditorView::Tick(float DeltaTime)
 
 void AEditorView::OnMouseLeftButtonClick()
 {
-    UE_LOG(LogTemp, Warning, TEXT("AEditorView::MouseClick"));
-    if (SelectedTileSpriteActor != nullptr)
+    if (SelectedTileSpriteActor == nullptr)
     {
-        APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-        FVector WorldPosition, WorldDirection;
-        PlayerController->DeprojectMousePositionToWorld(WorldPosition, WorldDirection);
-
-        const uint32 IndexX = WorldXToGridIndexX(WorldPosition.X);
-        const uint32 IndexY = WorldZToGridIndexY(WorldPosition.Z);
-        ModelActor->SetMapTile(
-            IndexX, IndexY,
-            SelectedTileSpriteActor->GetTileId(),
-            Model::EMapTileRotation::Rotation0 // TODO: Implement rotation
-        );
-        SelectedTileSpriteActor->Destroy();
-        SelectedTileSpriteActor = nullptr;
+        return;
     }
+
+    APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+    FVector WorldPosition, WorldDirection;
+    PlayerController->DeprojectMousePositionToWorld(WorldPosition, WorldDirection);
+
+    const uint32 IndexX = WorldXToGridIndexX(WorldPosition.X);
+    const uint32 IndexY = WorldZToGridIndexY(WorldPosition.Z);
+    ModelActor->SetMapTile(
+        IndexX, IndexY,
+        SelectedTileSpriteActor->GetTileId(),
+        SelectedTileSpriteActor->GetRotation()
+    );
+    SelectedTileSpriteActor->Destroy();
+    SelectedTileSpriteActor = nullptr;
+}
+
+void AEditorView::OnMouseRightButtonClick()
+{
+    if (SelectedTileSpriteActor == nullptr)
+    {
+        return;
+    }
+
+    SelectedTileSpriteActor->Rotate();
 }
 
 void AEditorView::RedrawMap()

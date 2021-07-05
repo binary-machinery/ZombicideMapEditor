@@ -61,6 +61,9 @@ protected:
     UFUNCTION()
     void OnMouseLeftButtonClick();
 
+    UFUNCTION()
+    void OnMouseRightButtonClick();
+
 private:
     void RedrawMap();
     void SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,

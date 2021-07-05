@@ -2,12 +2,16 @@
 #include "PaperSpriteComponent.h"
 #include "Paper2D/Classes/PaperSprite.h"
 
+std::array<Model::EMapTileRotation, 4> ATileSpriteActor::AvailableRotations = {
+    Model::EMapTileRotation::Rotation0,
+    Model::EMapTileRotation::Rotation90,
+    Model::EMapTileRotation::Rotation180,
+    Model::EMapTileRotation::Rotation270
+};
+
 // Sets default values
 ATileSpriteActor::ATileSpriteActor()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = true;
-
     SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
     SpriteComponent->SetRelativeScale3D(FVector(0.5f));
     RootComponent = SpriteComponent;
@@ -19,19 +23,18 @@ void ATileSpriteActor::SetTileData(const Model::FTileId& TileIdValue, UPaperSpri
     SpriteComponent->SetSprite(Sprite);
 }
 
+void ATileSpriteActor::Rotate()
+{
+    RotationIndex = (RotationIndex + 1) % AvailableRotations.size();
+    SetActorRotation(FRotator::MakeFromEuler(FVector(0.0f, static_cast<float>(GetRotation()), 0.0f)));
+}
+
 const Model::FTileId& ATileSpriteActor::GetTileId() const
 {
     return TileId;
 }
 
-// Called when the game starts or when spawned
-void ATileSpriteActor::BeginPlay()
+Model::EMapTileRotation ATileSpriteActor::GetRotation() const
 {
-    Super::BeginPlay();
-}
-
-// Called every frame
-void ATileSpriteActor::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
+    return AvailableRotations[RotationIndex];
 }
