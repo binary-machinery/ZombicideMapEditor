@@ -17,8 +17,14 @@ const Model::FMap& AEditorModel::GetMap() const
 
 void AEditorModel::GenerateNextTile()
 {
-    MapGenerator->GenerateNextTile();
+    const bool bFinished = MapGenerator->GenerateNextTile();
     GeneratedNextTileEvent.Broadcast();
+
+    if (bFinished)
+    {
+        GetWorldTimerManager().ClearTimer(GenerateNextTileTimerHandle);
+        GeneratedMapEvent.Broadcast();
+    }
 }
 
 AEditorModel::FGeneratedMapEvent& AEditorModel::OnGeneratedMapEvent()
@@ -55,11 +61,4 @@ void AEditorModel::BeginPlay()
 void AEditorModel::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    if (!bGenerated)
-    {
-        MapGenerator->Generate();
-        bGenerated = true;
-        GeneratedMapEvent.Broadcast();
-    }
 }

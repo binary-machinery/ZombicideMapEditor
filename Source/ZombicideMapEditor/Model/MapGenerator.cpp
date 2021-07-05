@@ -38,7 +38,7 @@ void AMapGenerator::Generate()
     }
 }
 
-void AMapGenerator::GenerateNextTile()
+bool AMapGenerator::GenerateNextTile()
 {
     const Model::FMapTile& CurrentMapTile = Map->GetMapTile(CurrentX, CurrentY);
     if (CurrentMapTile.GetTile())
@@ -56,8 +56,14 @@ void AMapGenerator::GenerateNextTile()
     if (CurrentX >= Map->GetSizeX())
     {
         CurrentX = 0;
-        CurrentY = (CurrentY + 1) % Map->GetSizeY();
+        ++CurrentY;
+        if (CurrentY >= Map->GetSizeY())
+        {
+            CurrentY = 0;
+            return true;
+        }
     }
+    return false;
 }
 
 void AMapGenerator::BeginPlay()

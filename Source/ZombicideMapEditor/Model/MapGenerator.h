@@ -22,7 +22,7 @@ public:
     AMapGenerator();
     void SetMap(Model::FMap* Value);
     void Generate();
-    void GenerateNextTile();
+    bool GenerateNextTile();
 
 protected:
     virtual void BeginPlay() override;
