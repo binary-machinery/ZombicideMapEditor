@@ -19,8 +19,7 @@ void AEditorView::BeginPlay()
 {
     Super::BeginPlay();
 
-    ModelActor->OnGeneratedMapEvent().AddLambda([this]() { RedrawMap(); });
-    ModelActor->OnGeneratedNextTileEvent().AddLambda([this]() { RedrawMap(); }); // TODO: Redraw the changed sprite only
+    ModelActor->OnMapUpdatedEvent().AddLambda([this]() { RedrawMap(); }); // TODO: Redraw the changed sprite only
 
     TilePool->OnPoolRebuiltEvent().AddLambda([this]()
     {
@@ -52,7 +51,8 @@ void AEditorView::BeginPlay()
 
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
     PlayerController->SetShowMouseCursor(true);
-    PlayerController->InputComponent->BindAction("MouseLeftButtonClick", IE_Released, this, &AEditorView::OnMouseLeftButtonClick);
+    PlayerController->InputComponent->BindAction("MouseLeftButtonClick", IE_Released, this,
+                                                 &AEditorView::OnMouseLeftButtonClick);
 
     TilePoolWidget = CreateWidget<UTilePoolWidget>(
         GetWorld(),
@@ -90,7 +90,6 @@ void AEditorView::Tick(float DeltaTime)
 void AEditorView::OnMouseLeftButtonClick()
 {
     UE_LOG(LogTemp, Warning, TEXT("AEditorView::MouseClick"));
-
     if (SelectedTileSpriteActor != nullptr)
     {
         APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -99,8 +98,13 @@ void AEditorView::OnMouseLeftButtonClick()
 
         const uint32 IndexX = WorldXToGridIndexX(WorldPosition.X);
         const uint32 IndexY = WorldZToGridIndexY(WorldPosition.Z);
-
-        UE_LOG(LogTemp, Warning, TEXT("AEditorView::MouseClick: %d:%d"), IndexX, IndexY);
+        ModelActor->SetMapTile(
+            IndexX, IndexY,
+            SelectedTileSpriteActor->GetTileId(),
+            Model::EMapTileRotation::Rotation0 // TODO: Implement rotation
+        );
+        SelectedTileSpriteActor->Destroy();
+        SelectedTileSpriteActor = nullptr;
     }
 }
 
@@ -134,7 +138,7 @@ void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTile
         FVector(GridIndexXToWorldX(X), 0, GridIndexYToWorldZ(Y)),
         FRotator::MakeFromEuler(FVector(0, static_cast<float>(Rotation), 0))
     );
-    TileSpriteActor->SetSprite(TileSpritesMap[TileId]);
+    TileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
     TileSpriteActors.Add(TileSpriteActor);
 }
 
@@ -175,6 +179,7 @@ void AEditorView::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
 
 void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
 {
+    UE_LOG(LogTemp, Warning, TEXT("AEditorView::OnSelectedTileChanged"));
     if (SelectedTileSpriteActor == nullptr)
     {
         SelectedTileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
@@ -183,7 +188,7 @@ void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
             FRotator::ZeroRotator
         );
     }
-    SelectedTileSpriteActor->SetSprite(TileSpritesMap[TileId]);
+    SelectedTileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
 }
 
 uint32 AEditorView::WorldXToGridIndexX(const float WorldX)

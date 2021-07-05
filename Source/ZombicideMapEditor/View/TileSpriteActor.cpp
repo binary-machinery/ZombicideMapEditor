@@ -13,9 +13,15 @@ ATileSpriteActor::ATileSpriteActor()
     RootComponent = SpriteComponent;
 }
 
-void ATileSpriteActor::SetSprite(UPaperSprite* Sprite)
+void ATileSpriteActor::SetTileData(const Model::FTileId& TileIdValue, UPaperSprite* Sprite)
 {
+    TileId = TileIdValue;
     SpriteComponent->SetSprite(Sprite);
+}
+
+const Model::FTileId& ATileSpriteActor::GetTileId() const
+{
+    return TileId;
 }
 
 // Called when the game starts or when spawned

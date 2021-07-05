@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ZombicideMapEditor/Model/TileData/TileId.h"
 
 #include "TileSpriteActor.generated.h"
 
@@ -17,7 +18,9 @@ public:
     // Sets default values for this actor's properties
     ATileSpriteActor();
 
-    void SetSprite(UPaperSprite* Sprite);
+    void SetTileData(const Model::FTileId& TileId, UPaperSprite* Sprite);
+
+    const Model::FTileId& GetTileId() const;
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -29,4 +32,7 @@ protected:
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
+
+private:
+    Model::FTileId TileId;
 };

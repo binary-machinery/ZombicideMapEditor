@@ -4,6 +4,8 @@
 #include "EditorModel.h"
 
 #include "MapGenerator.h"
+#include "TilePool.h"
+#include "TileData/Tile.h"
 
 AEditorModel::AEditorModel()
 {
@@ -18,23 +20,34 @@ const Model::FMap& AEditorModel::GetMap() const
 void AEditorModel::GenerateNextTile()
 {
     const bool bFinished = MapGenerator->GenerateNextTile();
-    GeneratedNextTileEvent.Broadcast();
+    MapUpdatedEvent.Broadcast();
 
     if (bFinished)
     {
         GetWorldTimerManager().ClearTimer(GenerateNextTileTimerHandle);
-        GeneratedMapEvent.Broadcast();
     }
 }
 
-AEditorModel::FGeneratedMapEvent& AEditorModel::OnGeneratedMapEvent()
+void AEditorModel::SetMapTile(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
+                              const Model::EMapTileRotation Rotation)
 {
-    return GeneratedMapEvent;
+    const Model::FMapTile& CurrentMapTile = Map->GetMapTile(X, Y);
+    if (CurrentMapTile.GetTile())
+    {
+        TilePool->ReturnTileToPool(CurrentMapTile.GetTile());
+    }
+
+    Map->SetTile(
+        X, Y,
+        TilePool->TakeTileFromPool(TileId),
+        Rotation
+    );
+    MapUpdatedEvent.Broadcast();
 }
 
-AEditorModel::FGeneratedNextTileEvent& AEditorModel::OnGeneratedNextTileEvent()
+AEditorModel::FMapUpdatedEvent& AEditorModel::OnMapUpdatedEvent()
 {
-    return GeneratedNextTileEvent;
+    return MapUpdatedEvent;
 }
 
 void AEditorModel::PostInitializeComponents()

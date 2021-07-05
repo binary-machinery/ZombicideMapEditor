@@ -3,10 +3,17 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "MapData/Map.h"
+#include "MapData/MapTileRotation.h"
 
 #include "EditorModel.generated.h"
 
+class ATilePool;
 class AMapGenerator;
+
+namespace Model
+{
+    class FTileId;
+}
 
 UCLASS()
 class ZOMBICIDEMAPEDITOR_API AEditorModel : public AActor
@@ -14,17 +21,16 @@ class ZOMBICIDEMAPEDITOR_API AEditorModel : public AActor
     GENERATED_BODY()
 
 public:
-    DECLARE_EVENT(AEditorModel, FGeneratedMapEvent)
-
-    DECLARE_EVENT(AEditorModel, FGeneratedNextTileEvent)
+    DECLARE_EVENT(AEditorModel, FMapUpdatedEvent)
 
     AEditorModel();
 
     const Model::FMap& GetMap() const;
     void GenerateNextTile();
 
-    FGeneratedMapEvent& OnGeneratedMapEvent();
-    FGeneratedNextTileEvent& OnGeneratedNextTileEvent();
+    void SetMapTile(const uint32 X, const uint32 Y, const Model::FTileId& TileId, const Model::EMapTileRotation Rotation);
+
+    FMapUpdatedEvent& OnMapUpdatedEvent();
 
     virtual void PostInitializeComponents() override;
 
@@ -35,6 +41,9 @@ public:
     virtual void Tick(float DeltaTime) override;
 
 protected:
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
+    ATilePool* TilePool;
+
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     AMapGenerator* MapGenerator;
 
@@ -47,6 +56,5 @@ private:
     bool bGenerated = false;
     FTimerHandle GenerateNextTileTimerHandle;
 
-    FGeneratedMapEvent GeneratedMapEvent;
-    FGeneratedNextTileEvent GeneratedNextTileEvent;
+    FMapUpdatedEvent MapUpdatedEvent;
 };
