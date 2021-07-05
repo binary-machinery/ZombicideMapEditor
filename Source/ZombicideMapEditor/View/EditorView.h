@@ -58,6 +58,9 @@ protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ATilePool* TilePool;
 
+    UFUNCTION()
+    void OnMouseLeftButtonClick();
+
 private:
     void RedrawMap();
     void SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,

@@ -52,6 +52,7 @@ void AEditorView::BeginPlay()
 
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
     PlayerController->SetShowMouseCursor(true);
+    PlayerController->InputComponent->BindAction("MouseLeftButtonClick", IE_Released, this, &AEditorView::OnMouseLeftButtonClick);
 
     TilePoolWidget = CreateWidget<UTilePoolWidget>(
         GetWorld(),
@@ -83,6 +84,23 @@ void AEditorView::Tick(float DeltaTime)
         const float Z = GridIndexYToWorldZ(WorldZToGridIndexY(WorldPosition.Z));
 
         SelectedTileSpriteActor->SetActorLocation(FVector(X, Y, Z));
+    }
+}
+
+void AEditorView::OnMouseLeftButtonClick()
+{
+    UE_LOG(LogTemp, Warning, TEXT("AEditorView::MouseClick"));
+
+    if (SelectedTileSpriteActor != nullptr)
+    {
+        APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+        FVector WorldPosition, WorldDirection;
+        PlayerController->DeprojectMousePositionToWorld(WorldPosition, WorldDirection);
+
+        const uint32 IndexX = WorldXToGridIndexX(WorldPosition.X);
+        const uint32 IndexY = WorldZToGridIndexY(WorldPosition.Z);
+
+        UE_LOG(LogTemp, Warning, TEXT("AEditorView::MouseClick: %d:%d"), IndexX, IndexY);
     }
 }
 
