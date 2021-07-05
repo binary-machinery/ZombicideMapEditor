@@ -170,20 +170,30 @@ void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
 
 uint32 AEditorView::WorldXToGridIndexX(const float WorldX)
 {
-    return FMath::FloorToInt((WorldX - MapOffsetX + MapTileSize / 2) / MapTileSize);
+    return FMath::Clamp<int32>(
+        FMath::FloorToInt((WorldX - MapOffsetX + MapTileSize / 2) / MapTileSize),
+        0,
+        ModelActor->GetMap().GetSizeX() - 1
+    );
 }
 
 uint32 AEditorView::WorldZToGridIndexY(const float WorldZ)
 {
-    return FMath::FloorToInt((WorldZ - MapOffsetY + MapTileSize / 2) / MapTileSize);
+    return FMath::Clamp<int32>(
+        FMath::FloorToInt((WorldZ - MapOffsetY + MapTileSize / 2) / MapTileSize),
+        0,
+        ModelActor->GetMap().GetSizeY() - 1
+    );
 }
 
 float AEditorView::GridIndexXToWorldX(const uint32 GridIndexX)
 {
-    return GridIndexX * MapTileSize + MapOffsetX;
+    const uint32 ClampedIndexX = FMath::Clamp<int32>(GridIndexX, 0, ModelActor->GetMap().GetSizeX() - 1);
+    return ClampedIndexX * MapTileSize + MapOffsetX;
 }
 
 float AEditorView::GridIndexYToWorldZ(const uint32 GridIndexY)
 {
-    return GridIndexY * MapTileSize + MapOffsetY;
+    const uint32 ClampedIndexY = FMath::Clamp<int32>(GridIndexY, 0, ModelActor->GetMap().GetSizeY() - 1);
+    return ClampedIndexY * MapTileSize + MapOffsetY;
 }
