@@ -45,6 +45,17 @@ void AEditorModel::SetMapTile(const uint32 X, const uint32 Y, const Model::FTile
     MapUpdatedEvent.Broadcast();
 }
 
+void AEditorModel::ResetMapTile(const uint32 X, const uint32 Y)
+{
+    const Model::FMapTile& CurrentMapTile = Map->GetMapTile(X, Y);
+    if (CurrentMapTile.GetTile())
+    {
+        TilePool->ReturnTileToPool(CurrentMapTile.GetTile());
+        Map->ResetTile(X, Y);
+        MapUpdatedEvent.Broadcast();
+    }
+}
+
 AEditorModel::FMapUpdatedEvent& AEditorModel::OnMapUpdatedEvent()
 {
     return MapUpdatedEvent;

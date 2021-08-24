@@ -29,6 +29,7 @@ public:
     void GenerateNextTile();
 
     void SetMapTile(const uint32 X, const uint32 Y, const Model::FTileId& TileId, const Model::EMapTileRotation Rotation);
+    void ResetMapTile(const uint32 X, const uint32 Y);
 
     FMapUpdatedEvent& OnMapUpdatedEvent();
 

@@ -101,11 +101,6 @@ void AEditorView::Tick(float DeltaTime)
 
 void AEditorView::OnMouseLeftButtonClick()
 {
-    if (SelectedTileSpriteActor == nullptr)
-    {
-        return;
-    }
-
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
     FVector WorldPosition, WorldDirection;
     PlayerController->DeprojectMousePositionToWorld(WorldPosition, WorldDirection);
@@ -118,13 +113,20 @@ void AEditorView::OnMouseLeftButtonClick()
         return;
     }
 
-    ModelActor->SetMapTile(
-        IndexX, IndexY,
-        SelectedTileSpriteActor->GetTileId(),
-        SelectedTileSpriteActor->GetRotation()
-    );
-    SelectedTileSpriteActor->Destroy();
-    SelectedTileSpriteActor = nullptr;
+    if (SelectedTileSpriteActor != nullptr)
+    {
+        ModelActor->SetMapTile(
+            IndexX, IndexY,
+            SelectedTileSpriteActor->GetTileId(),
+            SelectedTileSpriteActor->GetRotation()
+        );
+        SelectedTileSpriteActor->Destroy();
+        SelectedTileSpriteActor = nullptr;
+    }
+    else
+    {
+        ModelActor->ResetMapTile(IndexX, IndexY);
+    }
 }
 
 void AEditorView::OnMouseRightButtonClick()

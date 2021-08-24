@@ -8,6 +8,7 @@ namespace Model
     public:
         FMap(const uint32 SizeX, const uint32 SizeY);
         void SetTile(const uint32 X, const uint32 Y, const FTile* const Tile, const EMapTileRotation Rotation);
+        void ResetTile(const uint32 X, const uint32 Y);
 
         uint32 GetSizeX() const
         {

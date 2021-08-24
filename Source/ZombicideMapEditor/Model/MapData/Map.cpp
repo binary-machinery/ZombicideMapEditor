@@ -21,3 +21,8 @@ void Model::FMap::SetTile(const uint32 X, const uint32 Y, const FTile* const Til
 {
     TileGrid[X][Y] = FMapTile(Tile, Rotation);
 }
+
+void Model::FMap::ResetTile(const uint32 X, const uint32 Y)
+{
+    TileGrid[X][Y] = FMapTile(nullptr, EMapTileRotation::Rotation0);
+}
