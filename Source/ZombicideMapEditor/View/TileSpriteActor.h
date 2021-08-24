@@ -19,7 +19,6 @@ class ZOMBICIDEMAPEDITOR_API ATileSpriteActor : public AActor
     GENERATED_BODY()
 
 public:
-    // Sets default values for this actor's properties
     ATileSpriteActor();
 
     void SetTileData(const Model::FTileId& TileId, UPaperSprite* Sprite);
