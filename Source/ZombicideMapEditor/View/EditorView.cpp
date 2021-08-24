@@ -125,7 +125,20 @@ void AEditorView::OnMouseLeftButtonClick()
     }
     else
     {
-        ModelActor->ResetMapTile(IndexX, IndexY);
+        const Model::FMapTile& MapTile = ModelActor->GetMap().GetMapTile(IndexX, IndexY);
+        if (MapTile.GetTile())
+        {
+            const Model::FTileId& TileId = MapTile.GetTile()->GetTileId();
+            const Model::EMapTileRotation Rotation = MapTile.GetRotation();
+            ModelActor->ResetMapTile(IndexX, IndexY);
+            SelectedTileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
+                SelectedTileActorType,
+                FVector(0, 1, 0),
+                FRotator::ZeroRotator
+            );
+            SelectedTileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
+            SelectedTileSpriteActor->SetRotation(Rotation);
+        }
     }
 }
 

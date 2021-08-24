@@ -22,6 +22,7 @@ public:
     ATileSpriteActor();
 
     void SetTileData(const Model::FTileId& TileId, UPaperSprite* Sprite);
+    void SetRotation(const Model::EMapTileRotation Rotation);
     void Rotate();
 
     const Model::FTileId& GetTileId() const;

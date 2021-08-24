@@ -23,6 +23,19 @@ void ATileSpriteActor::SetTileData(const Model::FTileId& TileIdValue, UPaperSpri
     SpriteComponent->SetSprite(Sprite);
 }
 
+void ATileSpriteActor::SetRotation(const Model::EMapTileRotation Rotation)
+{
+    for (uint32 i = 0; i < AvailableRotations.size(); ++i)
+    {
+        if (AvailableRotations[i] == Rotation)
+        {
+            RotationIndex = i;
+            break;
+        }
+    }
+    SetActorRotation(FRotator::MakeFromEuler(FVector(0.0f, static_cast<float>(GetRotation()), 0.0f)));
+}
+
 void ATileSpriteActor::Rotate()
 {
     RotationIndex = (RotationIndex + 1) % AvailableRotations.size();
