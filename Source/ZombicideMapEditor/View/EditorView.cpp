@@ -180,7 +180,7 @@ void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTile
     ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
         ATileSpriteActor::StaticClass(),
         FVector(GridIndexXToWorldX(X), 0, GridIndexYToWorldZ(Y)),
-        FRotator::MakeFromEuler(FVector(0, static_cast<float>(Rotation), 0))
+        FRotator::MakeFromEuler(FVector(0, -static_cast<float>(Rotation), 0))
     );
     TileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
     TileSpriteActors.Add(TileSpriteActor);

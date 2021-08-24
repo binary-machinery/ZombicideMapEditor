@@ -33,13 +33,13 @@ void ATileSpriteActor::SetRotation(const Model::EMapTileRotation Rotation)
             break;
         }
     }
-    SetActorRotation(FRotator::MakeFromEuler(FVector(0.0f, static_cast<float>(GetRotation()), 0.0f)));
+    SetActorRotation(FRotator::MakeFromEuler(FVector(0.0f, -static_cast<float>(GetRotation()), 0.0f)));
 }
 
 void ATileSpriteActor::Rotate()
 {
     RotationIndex = (RotationIndex + 1) % AvailableRotations.size();
-    SetActorRotation(FRotator::MakeFromEuler(FVector(0.0f, static_cast<float>(GetRotation()), 0.0f)));
+    SetActorRotation(FRotator::MakeFromEuler(FVector(0.0f, -static_cast<float>(GetRotation()), 0.0f)));
 }
 
 const Model::FTileId& ATileSpriteActor::GetTileId() const
