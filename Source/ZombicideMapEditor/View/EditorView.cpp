@@ -112,6 +112,12 @@ void AEditorView::OnMouseLeftButtonClick()
 
     const uint32 IndexX = WorldXToGridIndexX(WorldPosition.X);
     const uint32 IndexY = WorldZToGridIndexY(WorldPosition.Z);
+    if (IndexX < 0 || static_cast<uint32>(IndexX) >= ModelActor->GetMap().GetSizeX()
+        || IndexY < 0 || static_cast<uint32>(IndexY) >= ModelActor->GetMap().GetSizeY())
+    {
+        return;
+    }
+
     ModelActor->SetMapTile(
         IndexX, IndexY,
         SelectedTileSpriteActor->GetTileId(),
