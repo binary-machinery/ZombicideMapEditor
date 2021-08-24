@@ -35,10 +35,10 @@ public:
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    float MapOffsetX = -250;
+    float MapOffsetX = 0;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    float MapOffsetY = -125;
+    float MapOffsetY = 0;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     float MapTileSize = 250;
@@ -77,6 +77,9 @@ private:
     void RemoveTilePoolItemWidget(const Model::FTileId& TileId);
 
     void OnSelectedTileChanged(const Model::FTileId& TileId);
+
+    float GetAdjustedMapOffsetX() const;
+    float GetAdjustedOffsetY() const;
 
     int32 WorldXToGridIndexX(const float WorldX);
     int32 WorldZToGridIndexY(const float WorldZ);

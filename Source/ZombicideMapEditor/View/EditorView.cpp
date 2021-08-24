@@ -235,22 +235,32 @@ void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
     SelectedTileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
 }
 
+float AEditorView::GetAdjustedMapOffsetX() const
+{
+    return MapOffsetX - MapTileSize * ModelActor->GetMap().GetSizeX() / 2.0f;
+}
+
+float AEditorView::GetAdjustedOffsetY() const
+{
+    return MapOffsetY - MapTileSize * ModelActor->GetMap().GetSizeY() / 2.0f;
+}
+
 int32 AEditorView::WorldXToGridIndexX(const float WorldX)
 {
-    return FMath::FloorToInt((WorldX - MapOffsetX + MapTileSize / 2) / MapTileSize);
+    return FMath::FloorToInt((WorldX - GetAdjustedMapOffsetX() + MapTileSize / 2) / MapTileSize);
 }
 
 int32 AEditorView::WorldZToGridIndexY(const float WorldZ)
 {
-    return FMath::FloorToInt((WorldZ - MapOffsetY + MapTileSize / 2) / MapTileSize);
+    return FMath::FloorToInt((WorldZ - GetAdjustedOffsetY() + MapTileSize / 2) / MapTileSize);
 }
 
 float AEditorView::GridIndexXToWorldX(const int32 GridIndexX)
 {
-    return GridIndexX * MapTileSize + MapOffsetX;
+    return GridIndexX * MapTileSize + GetAdjustedMapOffsetX();
 }
 
 float AEditorView::GridIndexYToWorldZ(const int32 GridIndexY)
 {
-    return GridIndexY * MapTileSize + MapOffsetY;
+    return GridIndexY * MapTileSize + GetAdjustedOffsetY();
 }
