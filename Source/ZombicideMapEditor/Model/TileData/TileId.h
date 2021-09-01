@@ -9,6 +9,9 @@ namespace Model
         FTileId();
         FTileId(const uint32 CardId, const ETileSide Side);
 
+        static FTileId FromString(const FString& TileName);
+        static FTileId FromString(FString&& TileName);
+
         uint32 GetCardId() const;
         ETileSide GetSide() const;
         FTileId GetOtherSideTileId() const;

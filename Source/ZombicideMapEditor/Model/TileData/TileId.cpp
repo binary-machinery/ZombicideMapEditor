@@ -12,6 +12,25 @@ Model::FTileId::FTileId(const uint32 CardId, const ETileSide Side)
 {
 }
 
+Model::FTileId Model::FTileId::FromString(const FString& TileName)
+{
+    const ETileSide TileSide = TileName[TileName.Len() - 1] == 'V'
+                               ? ETileSide::V
+                               : ETileSide::R;
+    const int32 CardId = FCString::Atoi(*TileName.LeftChop(1));
+    return FTileId(CardId, TileSide);
+}
+
+Model::FTileId Model::FTileId::FromString(FString&& TileName)
+{
+    const ETileSide TileSide = TileName[TileName.Len() - 1] == 'V'
+                                   ? ETileSide::V
+                                   : ETileSide::R;
+    TileName.LeftChopInline(1);
+    const int32 CardId = FCString::Atoi(*TileName);
+    return FTileId(CardId, TileSide);
+}
+
 uint32 Model::FTileId::GetCardId() const
 {
     return CardId;

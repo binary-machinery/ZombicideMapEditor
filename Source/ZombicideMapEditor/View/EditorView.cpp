@@ -40,13 +40,7 @@ void AEditorView::BeginPlay()
 
     for (UPaperSprite* TileSprite : TileSprites)
     {
-        FString TileName = TileSprite->GetName();
-        const Model::ETileSide TileSide = TileName[TileName.Len() - 1] == 'V'
-                                              ? Model::ETileSide::V
-                                              : Model::ETileSide::R;
-        TileName.LeftChopInline(1);
-        const int32 CardId = FCString::Atoi(*TileName);
-        TileSpritesMap.Add(Model::FTileId(CardId, TileSide), TileSprite);
+        TileSpritesMap.Add(Model::FTileId::FromString(TileSprite->GetName()), TileSprite);
     }
 
     APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);

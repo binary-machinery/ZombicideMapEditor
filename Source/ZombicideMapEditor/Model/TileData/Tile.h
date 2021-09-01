@@ -1,17 +1,16 @@
 ﻿#pragma once
 #include "TileId.h"
-#include "TileSide.h"
 
 namespace Model
 {
     class FTile
     {
     public:
-        FTile(const uint32 SetId, const uint32 CardId, const ETileSide Side);
+        FTile(const FTileId& TileId, const FString& Set);
 
-        uint32 GetSetId() const
+        const FString& GetSet() const
         {
-            return SetId;
+            return Set;
         }
 
         const FTileId& GetTileId() const
@@ -30,7 +29,7 @@ namespace Model
         }
 
     private:
-        const uint32 SetId;
         const FTileId TileId;
+        const FString Set;
     };
 }
