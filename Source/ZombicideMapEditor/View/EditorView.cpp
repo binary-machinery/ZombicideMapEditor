@@ -2,6 +2,7 @@
 
 #include "PaperSprite.h"
 #include "TileSpriteActor.h"
+#include "UiWidget.h"
 #include "TilePoolWidget.h"
 #include "TilePoolItemWidget.h"
 #include "Blueprint/UserWidget.h"
@@ -50,16 +51,24 @@ void AEditorView::BeginPlay()
     PlayerController->InputComponent->BindAction("MouseRightButtonClick", IE_Released, this,
                                                  &AEditorView::OnMouseRightButtonClick);
 
+    UiWidget = CreateWidget<UUiWidget>(
+        GetWorld(),
+        UiWidgetType,
+        FName(TEXT("Ui"))
+    );
+    UiWidget->AddToViewport();
+
     TilePoolWidget = CreateWidget<UTilePoolWidget>(
         GetWorld(),
         TilePoolWidgetType,
         FName(TEXT("TilePool"))
     );
-    TilePoolWidget->AddToViewport();
     TilePoolWidget->OnTileSelectedEvent().AddLambda([this](const Model::FTileId& TileId)
     {
         OnSelectedTileChanged(TileId);
     });
+
+    UiWidget->SetTilePoolWidget(TilePoolWidget);
 
     RebuildTilePoolItemWidgets();
 }
