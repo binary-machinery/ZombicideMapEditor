@@ -5,6 +5,7 @@
 
 #include "UiWidget.generated.h"
 
+class UButton;
 class UWidgetSwitcher;
 class UTilePoolWidget;
 
@@ -20,6 +21,31 @@ protected:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
     UWidgetSwitcher* TabsWidget;
 
-private:
-    UTilePoolWidget* TilePoolWidget;
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+    UPanelWidget* TilesTabPanel;
+
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+    UPanelWidget* GeneratorTabPanel;
+
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+    UPanelWidget* SettingsTabPanel;
+
+protected:
+    UFUNCTION(BlueprintCallable)
+    void InitTilesTabButton(UButton* Button);
+
+    UFUNCTION(BlueprintCallable)
+    void InitGeneratorTabButton(UButton* Button);
+
+    UFUNCTION(BlueprintCallable)
+    void InitSettingsTabButton(UButton* Button);
+    
+    UFUNCTION()
+    void OpenTilesTab();
+
+    UFUNCTION()
+    void OpenGeneratorTab();
+
+    UFUNCTION()
+    void OpenSettingsTab();
 };
