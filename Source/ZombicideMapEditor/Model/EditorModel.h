@@ -23,8 +23,6 @@ class ZOMBICIDEMAPEDITOR_API AEditorModel : public AActor
 public:
     DECLARE_EVENT(AEditorModel, FMapUpdatedEvent)
 
-    AEditorModel();
-
     const Model::FMap& GetMap() const;
     void GenerateNextTile();
 
@@ -37,9 +35,6 @@ public:
 
 protected:
     virtual void BeginPlay() override;
-
-public:
-    virtual void Tick(float DeltaTime) override;
 
 protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")

@@ -4,11 +4,6 @@
 #include "TilePool.h"
 #include "TileData/Tile.h"
 
-AEditorModel::AEditorModel()
-{
-    PrimaryActorTick.bCanEverTick = true;
-}
-
 const Model::FMap& AEditorModel::GetMap() const
 {
     return *Map;
@@ -77,9 +72,4 @@ void AEditorModel::BeginPlay()
 
     GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,
                                     GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
-}
-
-void AEditorModel::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
 }
