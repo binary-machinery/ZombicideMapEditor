@@ -88,12 +88,6 @@ void ATilePool::PostInitializeComponents()
 void ATilePool::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("ATilePool::Load"));
-}
-
-void ATilePool::BeginPlay()
-{
-    Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("ATilePool::BeginPlay"));
 
     AvailableTiles.Empty();
     UnavailableTiles.Empty();
@@ -104,6 +98,12 @@ void ATilePool::BeginPlay()
 
     SortAvailableTiles();
     OnPoolRebuiltEvent().Broadcast();
+}
+
+void ATilePool::BeginPlay()
+{
+    Super::BeginPlay();
+    UE_LOG(LogTemp, Warning, TEXT("ATilePool::BeginPlay"));
 }
 
 void ATilePool::SortAvailableTiles()

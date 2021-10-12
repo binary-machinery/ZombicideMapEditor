@@ -10,11 +10,6 @@ std::array<Model::EMapTileRotation, 4> AMapGenerator::AvailableRotations = {
     Model::EMapTileRotation::Rotation270
 };
 
-AMapGenerator::AMapGenerator()
-{
-    PrimaryActorTick.bCanEverTick = true;
-}
-
 void AMapGenerator::SetMap(Model::FMap* Value)
 {
     this->Map = Value;
@@ -81,9 +76,4 @@ void AMapGenerator::PostInitializeComponents()
 void AMapGenerator::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::Load"));
-}
-
-void AMapGenerator::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
 }

@@ -20,7 +20,6 @@ class ZOMBICIDEMAPEDITOR_API AMapGenerator : public AActor, public ILoadable
     GENERATED_BODY()
 
 public:
-    AMapGenerator();
     void SetMap(Model::FMap* Value);
     void Generate();
     bool GenerateNextTile();
@@ -31,7 +30,6 @@ protected:
 public:
     virtual void PostInitializeComponents() override;
     virtual void Load() override;
-    virtual void Tick(float DeltaTime) override;
 
 protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")

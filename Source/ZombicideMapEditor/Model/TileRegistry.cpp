@@ -13,6 +13,11 @@ void ATileRegistry::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
     UE_LOG(LogTemp, Warning, TEXT("ATileRegistry::PostInitializeComponents"));
+}
+
+void ATileRegistry::Load()
+{
+    UE_LOG(LogTemp, Warning, TEXT("ATileRegistry::Load"));
 
     const FString Path = FPaths::Combine(FPaths::ProjectContentDir(), FString("Config/Tiles.json"));
     FString JsonFile;
@@ -31,7 +36,6 @@ void ATileRegistry::PostInitializeComponents()
             FString Set = TileJsonObject->GetStringField("set");
             Model::FTileId TileId = Model::FTileId::FromString(Id);
             Tiles.Emplace(TileId, Set);
-            UE_LOG(LogTemp, Warning, TEXT("%s"), *TileId.ToString());
         }
     }
 
@@ -39,11 +43,6 @@ void ATileRegistry::PostInitializeComponents()
     {
         TilePointers.Add(&Tile);
     }
-}
-
-void ATileRegistry::Load()
-{
-    UE_LOG(LogTemp, Warning, TEXT("ATileRegistry::Load"));
 }
 
 void ATileRegistry::BeginPlay()

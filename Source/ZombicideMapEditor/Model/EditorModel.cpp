@@ -57,24 +57,21 @@ void AEditorModel::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::PostInitializeComponents"));
-
-    if (GetWorld()->IsGameWorld())
-    {
-        Map = MakeUnique<Model::FMap>(3, 3);
-        MapGenerator->SetMap(Map.Get());
-    }
 }
 
 void AEditorModel::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::Load"));
+
+    Map = MakeUnique<Model::FMap>(3, 3);
+    MapGenerator->SetMap(Map.Get());
+
+    GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,
+                                    GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
 }
 
 void AEditorModel::BeginPlay()
 {
     Super::BeginPlay();
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::BeginPlay"));
-
-    GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,
-                                    GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
 }
