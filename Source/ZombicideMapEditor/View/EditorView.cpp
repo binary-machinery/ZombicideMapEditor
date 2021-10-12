@@ -172,7 +172,7 @@ void AEditorView::RedrawMap()
     const Model::FMap& Map = ModelActor->GetMap();
     for (uint32 X = 0; X < Map.GetSizeX(); ++X)
     {
-        for (uint32 Y = 0; Y < Map.GetSizeX(); ++Y)
+        for (uint32 Y = 0; Y < Map.GetSizeY(); ++Y)
         {
             const Model::FMapTile& MapTile = Map.GetMapTile(X, Y);
             if (MapTile.GetTile())
