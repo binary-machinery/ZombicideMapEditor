@@ -1,6 +1,7 @@
 #include "EditorModel.h"
 
 #include "MapGenerator.h"
+#include "Settings.h"
 #include "TilePool.h"
 #include "TileData/Tile.h"
 
@@ -63,7 +64,7 @@ void AEditorModel::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::Load"));
 
-    Map = MakeUnique<Model::FMap>(3, 3);
+    Map = MakeUnique<Model::FMap>(Settings->GetMapSizeX(), Settings->GetMapSizeY());
     MapGenerator->SetMap(Map.Get());
 
     GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,

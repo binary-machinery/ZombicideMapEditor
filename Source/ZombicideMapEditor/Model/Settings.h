@@ -26,8 +26,8 @@ protected:
     virtual void BeginPlay() override;
 
 private:
-    uint32 MapSizeX;
-    uint32 MapSizeY;
+    uint32 MapSizeX = 3;
+    uint32 MapSizeY = 3;
 
     FMapSizeUpdated MapSizeUpdated;
 };

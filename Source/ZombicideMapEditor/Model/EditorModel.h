@@ -7,6 +7,7 @@
 #include "ZombicideMapEditor/ILoadable.h"
 #include "EditorModel.generated.h"
 
+class ASettings;
 class ATilePool;
 class AMapGenerator;
 
@@ -38,6 +39,9 @@ protected:
     virtual void BeginPlay() override;
 
 protected:
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
+    ASettings* Settings;
+    
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ATilePool* TilePool;
 
