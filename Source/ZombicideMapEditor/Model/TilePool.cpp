@@ -97,7 +97,6 @@ void ATilePool::Load()
     }
 
     SortAvailableTiles();
-    OnPoolRebuiltEvent().Broadcast();
 }
 
 void ATilePool::BeginPlay()
