@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "ZombicideMapEditor/ILoadable.h"
 #include "TilePool.generated.h"
 
 class ATileRegistry;
@@ -13,7 +14,7 @@ namespace Model
 }
 
 UCLASS()
-class ZOMBICIDEMAPEDITOR_API ATilePool : public AActor
+class ZOMBICIDEMAPEDITOR_API ATilePool : public AActor, public ILoadable
 {
     GENERATED_BODY()
 
@@ -35,6 +36,7 @@ public:
     FTileRemovedEvent& OnTileRemovedEvent();
 
     virtual void PostInitializeComponents() override;
+    virtual void Load() override;
 
 protected:
     virtual void BeginPlay() override;

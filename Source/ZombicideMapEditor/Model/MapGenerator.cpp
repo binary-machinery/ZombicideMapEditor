@@ -78,6 +78,11 @@ void AMapGenerator::PostInitializeComponents()
     UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::PostInitializeComponents"));
 }
 
+void AMapGenerator::Load()
+{
+    UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::Load"));
+}
+
 void AMapGenerator::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);

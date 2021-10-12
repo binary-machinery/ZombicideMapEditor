@@ -85,6 +85,11 @@ void ATilePool::PostInitializeComponents()
     UE_LOG(LogTemp, Warning, TEXT("ATilePool::PostInitializeComponents"));
 }
 
+void ATilePool::Load()
+{
+    UE_LOG(LogTemp, Warning, TEXT("ATilePool::Load"));
+}
+
 void ATilePool::BeginPlay()
 {
     Super::BeginPlay();

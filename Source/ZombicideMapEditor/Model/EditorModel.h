@@ -4,7 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "MapData/Map.h"
 #include "MapData/MapTileRotation.h"
-
+#include "ZombicideMapEditor/ILoadable.h"
 #include "EditorModel.generated.h"
 
 class ATilePool;
@@ -16,7 +16,7 @@ namespace Model
 }
 
 UCLASS()
-class ZOMBICIDEMAPEDITOR_API AEditorModel : public AActor
+class ZOMBICIDEMAPEDITOR_API AEditorModel : public AActor, public ILoadable
 {
     GENERATED_BODY()
 
@@ -32,6 +32,7 @@ public:
     FMapUpdatedEvent& OnMapUpdatedEvent();
 
     virtual void PostInitializeComponents() override;
+    virtual void Load() override;
 
 protected:
     virtual void BeginPlay() override;

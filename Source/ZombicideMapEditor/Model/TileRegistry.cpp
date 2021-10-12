@@ -41,6 +41,11 @@ void ATileRegistry::PostInitializeComponents()
     }
 }
 
+void ATileRegistry::Load()
+{
+    UE_LOG(LogTemp, Warning, TEXT("ATileRegistry::Load"));
+}
+
 void ATileRegistry::BeginPlay()
 {
     Super::BeginPlay();

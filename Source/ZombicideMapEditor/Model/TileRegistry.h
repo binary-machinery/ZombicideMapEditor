@@ -3,10 +3,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TileData/Tile.h"
+#include "ZombicideMapEditor/ILoadable.h"
 #include "TileRegistry.generated.h"
 
 UCLASS()
-class ZOMBICIDEMAPEDITOR_API ATileRegistry : public AActor
+class ZOMBICIDEMAPEDITOR_API ATileRegistry : public AActor, public ILoadable
 {
     GENERATED_BODY()
 
@@ -15,6 +16,7 @@ public:
     const TArray<const Model::FTile*>& GetTiles() const;
 
     virtual void PostInitializeComponents() override;
+    virtual void Load() override;
 
 protected:
     virtual void BeginPlay() override;

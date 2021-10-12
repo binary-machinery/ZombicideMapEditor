@@ -65,6 +65,11 @@ void AEditorModel::PostInitializeComponents()
     }
 }
 
+void AEditorModel::Load()
+{
+    UE_LOG(LogTemp, Warning, TEXT("AEditorModel::Load"));
+}
+
 void AEditorModel::BeginPlay()
 {
     Super::BeginPlay();

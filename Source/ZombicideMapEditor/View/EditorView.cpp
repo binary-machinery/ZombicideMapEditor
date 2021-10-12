@@ -16,9 +16,15 @@ AEditorView::AEditorView()
     PrimaryActorTick.bCanEverTick = true;
 }
 
+void AEditorView::Load()
+{
+    UE_LOG(LogTemp, Warning, TEXT("AEditorView::Load"));
+}
+
 void AEditorView::BeginPlay()
 {
     Super::BeginPlay();
+    UE_LOG(LogTemp, Warning, TEXT("AEditorView::BeginPlay"));
 
     ModelActor->OnMapUpdatedEvent().AddLambda([this]() { RedrawMap(); }); // TODO: Redraw the changed sprite only
 

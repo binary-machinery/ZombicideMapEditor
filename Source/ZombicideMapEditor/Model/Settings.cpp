@@ -27,6 +27,11 @@ void ASettings::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
     UE_LOG(LogTemp, Warning, TEXT("ASettings::PostInitializeComponents"));
+}
+
+void ASettings::Load()
+{
+    UE_LOG(LogTemp, Warning, TEXT("ASettings::Load"));
     // TODO: load persistent settings
 }
 
