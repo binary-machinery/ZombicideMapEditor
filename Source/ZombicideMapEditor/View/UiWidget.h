@@ -5,6 +5,7 @@
 
 #include "UiWidget.generated.h"
 
+class USettingsWidget;
 class UButton;
 class UWidgetSwitcher;
 class UTilePoolWidget;
@@ -16,6 +17,7 @@ class ZOMBICIDEMAPEDITOR_API UUiWidget : public UUserWidget
 
 public:
     void SetTilePoolWidget(UTilePoolWidget* Widget);
+    void SetSettingsWidget(USettingsWidget* Widget);
 
 protected:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)

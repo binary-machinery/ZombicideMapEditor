@@ -5,6 +5,7 @@
 #include "UiWidget.h"
 #include "TilePoolWidget.h"
 #include "TilePoolItemWidget.h"
+#include "SettingsWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "ZombicideMapEditor/Model/EditorModel.h"
@@ -69,6 +70,14 @@ void AEditorView::Load()
     });
 
     UiWidget->SetTilePoolWidget(TilePoolWidget);
+
+    SettingsWidget = CreateWidget<USettingsWidget>(
+        GetWorld(),
+        SettingsWidgetType,
+        FName(TEXT("Settings"))
+    );
+
+    UiWidget->SetSettingsWidget(SettingsWidget);
 
     RebuildTilePoolItemWidgets();
 }
