@@ -7,6 +7,7 @@
 #include "ZombicideMapEditor/ILoadable.h"
 #include "EditorView.generated.h"
 
+class ASettings;
 class USettingsWidget;
 class ATilePool;
 class UUiWidget;
@@ -64,6 +65,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
     TSubclassOf<ATileSpriteActor> SelectedTileActorType;
+
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
+    ASettings* Settings;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     AEditorModel* ModelActor;

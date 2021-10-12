@@ -78,6 +78,7 @@ void AEditorView::Load()
     );
 
     UiWidget->SetSettingsWidget(SettingsWidget);
+    SettingsWidget->SetSettings(Settings);
 
     RebuildTilePoolItemWidgets();
 }
