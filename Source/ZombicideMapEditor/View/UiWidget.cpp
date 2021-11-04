@@ -1,13 +1,19 @@
 #include "UiWidget.h"
 
-#include "SettingsWidget.h"
 #include "Components/WidgetSwitcher.h"
+#include "SettingsWidget.h"
 #include "TilePoolWidget.h"
+#include "GenerationWidget.h"
 #include "Components/Button.h"
 
 void UUiWidget::SetTilePoolWidget(UTilePoolWidget* Widget)
 {
     TilesTabPanel->AddChild(Widget);
+}
+
+void UUiWidget::SetGenerationWidget(UGenerationWidget* Widget)
+{
+    GeneratorTabPanel->AddChild(Widget);
 }
 
 void UUiWidget::SetSettingsWidget(USettingsWidget* Widget)

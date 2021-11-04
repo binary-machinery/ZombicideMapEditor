@@ -1,5 +1,6 @@
 #include "EditorView.h"
 
+#include "GenerationWidget.h"
 #include "PaperSprite.h"
 #include "TileSpriteActor.h"
 #include "UiWidget.h"
@@ -70,6 +71,18 @@ void AEditorView::Load()
     });
 
     UiWidget->SetTilePoolWidget(TilePoolWidget);
+
+    GenerationWidget = CreateWidget<UGenerationWidget>(
+        GetWorld(),
+        GenerationWidgetType,
+        FName(TEXT("Generation"))
+    );
+    GenerationWidget->OnRegenerateMapEvent().AddLambda([this]()
+    {
+        ModelActor->RegenerateMap();
+    });
+
+    UiWidget->SetGenerationWidget(GenerationWidget);
 
     SettingsWidget = CreateWidget<USettingsWidget>(
         GetWorld(),

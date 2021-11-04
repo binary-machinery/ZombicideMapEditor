@@ -5,6 +5,7 @@
 
 #include "UiWidget.generated.h"
 
+class UGenerationWidget;
 class USettingsWidget;
 class UButton;
 class UWidgetSwitcher;
@@ -17,6 +18,7 @@ class ZOMBICIDEMAPEDITOR_API UUiWidget : public UUserWidget
 
 public:
     void SetTilePoolWidget(UTilePoolWidget* Widget);
+    void SetGenerationWidget(UGenerationWidget* Widget);
     void SetSettingsWidget(USettingsWidget* Widget);
 
 protected:

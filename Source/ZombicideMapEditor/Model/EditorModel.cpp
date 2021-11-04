@@ -21,6 +21,14 @@ void AEditorModel::GenerateNextTile()
     }
 }
 
+void AEditorModel::RegenerateMap()
+{
+    ResetMapTiles();
+    MapGenerator->ResetIndices();
+    GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,
+                                    GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
+}
+
 void AEditorModel::SetMapTile(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
                               const Model::EMapTileRotation Rotation)
 {
