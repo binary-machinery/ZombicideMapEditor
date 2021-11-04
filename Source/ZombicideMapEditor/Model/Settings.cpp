@@ -33,6 +33,8 @@ void ASettings::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("ASettings::Load"));
     // TODO: load persistent settings
+    MapSizeX = 3;
+    MapSizeY = 3;
 }
 
 void ASettings::BeginPlay()

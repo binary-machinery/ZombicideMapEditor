@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "SettingsWidget.generated.h"
 
+class UButton;
 class ASettings;
 class UEditableTextBox;
 
@@ -21,6 +22,15 @@ protected:
 
     UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
     UEditableTextBox* MapSizeYInput;
+
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, BlueprintSetter=SetApplySizeButton)
+    UButton* ApplySizeButton;
+
+    UFUNCTION(BlueprintSetter)
+    void SetApplySizeButton(UButton* Button);
+
+    UFUNCTION()
+    void ApplyMapSize();
 
 private:
     ASettings* Settings;

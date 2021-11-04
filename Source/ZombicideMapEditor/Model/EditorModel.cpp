@@ -49,6 +49,17 @@ void AEditorModel::ResetMapTile(const uint32 X, const uint32 Y)
     }
 }
 
+void AEditorModel::ResetMapTiles()
+{
+    for (uint32 X = 0; X < Map->GetSizeX(); ++X)
+    {
+        for (uint32 Y = 0; Y < Map->GetSizeY(); ++Y)
+        {
+            ResetMapTile(X, Y);
+        }
+    }
+}
+
 AEditorModel::FMapUpdatedEvent& AEditorModel::OnMapUpdatedEvent()
 {
     return MapUpdatedEvent;
@@ -64,15 +75,27 @@ void AEditorModel::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::Load"));
 
-    Map = MakeUnique<Model::FMap>(Settings->GetMapSizeX(), Settings->GetMapSizeY());
-    MapGenerator->SetMap(Map.Get());
+    CreateMap();
 
-    GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,
-                                    GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
+    Settings->OnMapSizeUpdated().AddLambda([this]()
+    {
+        ResetMapTiles();
+        MapGenerator->ResetIndices();
+        CreateMap();
+    });
 }
 
 void AEditorModel::BeginPlay()
 {
     Super::BeginPlay();
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::BeginPlay"));
+}
+
+void AEditorModel::CreateMap()
+{
+    Map = MakeUnique<Model::FMap>(Settings->GetMapSizeX(), Settings->GetMapSizeY());
+    MapGenerator->SetMap(Map.Get());
+
+    GetWorldTimerManager().SetTimer(GenerateNextTileTimerHandle, this, &AEditorModel::GenerateNextTile,
+                                    GenerateNextTileTimeInterval, true, GenerateNextTileTimeInterval);
 }

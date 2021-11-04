@@ -15,22 +15,10 @@ void AMapGenerator::SetMap(Model::FMap* Value)
     this->Map = Value;
 }
 
-void AMapGenerator::Generate()
+void AMapGenerator::ResetIndices()
 {
-    checkf(Map, TEXT("Map is null"));
-    checkf(TilePool, TEXT("TilePool is null"));
-
-    for (uint32 X = 0; X < Map->GetSizeX(); ++X)
-    {
-        for (uint32 Y = 0; Y < Map->GetSizeY(); ++Y)
-        {
-            Map->SetTile(
-                X, Y,
-                TilePool->TakeRandomTileFromPool(),
-                AvailableRotations[FMath::RandHelper(AvailableRotations.size())]
-            );
-        }
-    }
+    CurrentX = 0;
+    CurrentY = 0;
 }
 
 bool AMapGenerator::GenerateNextTile()

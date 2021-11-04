@@ -21,7 +21,7 @@ class ZOMBICIDEMAPEDITOR_API AMapGenerator : public AActor, public ILoadable
 
 public:
     void SetMap(Model::FMap* Value);
-    void Generate();
+    void ResetIndices();
     bool GenerateNextTile();
 
 protected:
