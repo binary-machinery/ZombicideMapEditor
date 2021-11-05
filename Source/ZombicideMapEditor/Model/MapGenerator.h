@@ -28,7 +28,6 @@ protected:
     virtual void BeginPlay() override;
 
 public:
-    virtual void PostInitializeComponents() override;
     virtual void Load() override;
 
 protected:

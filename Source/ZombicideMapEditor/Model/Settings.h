@@ -22,7 +22,6 @@ public:
 
     FMapSizeUpdated& OnMapSizeUpdated();
 
-    virtual void PostInitializeComponents() override;
     virtual void Load() override;
 
 protected:

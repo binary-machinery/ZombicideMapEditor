@@ -55,12 +55,6 @@ void AMapGenerator::BeginPlay()
     UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::BeginPlay"));
 }
 
-void AMapGenerator::PostInitializeComponents()
-{
-    Super::PostInitializeComponents();
-    UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::PostInitializeComponents"));
-}
-
 void AMapGenerator::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::Load"));

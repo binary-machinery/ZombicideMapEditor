@@ -28,13 +28,13 @@ public:
     void GenerateNextTile();
     void RegenerateMap();
 
-    void SetMapTile(const uint32 X, const uint32 Y, const Model::FTileId& TileId, const Model::EMapTileRotation Rotation);
+    void SetMapTile(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
+                    const Model::EMapTileRotation Rotation);
     void ResetMapTile(const uint32 X, const uint32 Y);
     void ResetMapTiles();
 
     FMapUpdatedEvent& OnMapUpdatedEvent();
 
-    virtual void PostInitializeComponents() override;
     virtual void Load() override;
 
 protected:
@@ -43,7 +43,7 @@ protected:
 protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ASettings* Settings;
-    
+
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ATilePool* TilePool;
 

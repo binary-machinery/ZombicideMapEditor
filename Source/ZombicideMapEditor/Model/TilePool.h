@@ -35,7 +35,6 @@ public:
     FTileAddedEvent& OnTileAddedEvent();
     FTileRemovedEvent& OnTileRemovedEvent();
 
-    virtual void PostInitializeComponents() override;
     virtual void Load() override;
 
 protected:

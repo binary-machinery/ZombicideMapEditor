@@ -17,7 +17,6 @@ public:
     ATileRegistry();
     const TArray<const Model::FTile*>& GetTiles() const;
 
-    virtual void PostInitializeComponents() override;
     virtual void Load() override;
 
 protected:

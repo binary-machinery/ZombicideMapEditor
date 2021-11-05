@@ -11,12 +11,6 @@ const TArray<const Model::FTile*>& ATileRegistry::GetTiles() const
     return TilePointers;
 }
 
-void ATileRegistry::PostInitializeComponents()
-{
-    Super::PostInitializeComponents();
-    UE_LOG(LogTemp, Warning, TEXT("ATileRegistry::PostInitializeComponents"));
-}
-
 void ATileRegistry::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("ATileRegistry::Load"));

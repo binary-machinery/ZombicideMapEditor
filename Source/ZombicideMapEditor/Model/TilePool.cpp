@@ -79,12 +79,6 @@ ATilePool::FTileRemovedEvent& ATilePool::OnTileRemovedEvent()
     return TileRemovedEvent;
 }
 
-void ATilePool::PostInitializeComponents()
-{
-    Super::PostInitializeComponents();
-    UE_LOG(LogTemp, Warning, TEXT("ATilePool::PostInitializeComponents"));
-}
-
 void ATilePool::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("ATilePool::Load"));

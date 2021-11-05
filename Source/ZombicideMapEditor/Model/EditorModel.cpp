@@ -73,12 +73,6 @@ AEditorModel::FMapUpdatedEvent& AEditorModel::OnMapUpdatedEvent()
     return MapUpdatedEvent;
 }
 
-void AEditorModel::PostInitializeComponents()
-{
-    Super::PostInitializeComponents();
-    UE_LOG(LogTemp, Warning, TEXT("AEditorModel::PostInitializeComponents"));
-}
-
 void AEditorModel::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("AEditorModel::Load"));
