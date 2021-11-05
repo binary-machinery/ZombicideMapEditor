@@ -6,6 +6,8 @@
 #include "ZombicideMapEditor/ILoadable.h"
 #include "TileRegistry.generated.h"
 
+class ASettings;
+
 UCLASS()
 class ZOMBICIDEMAPEDITOR_API ATileRegistry : public AActor, public ILoadable
 {
@@ -19,6 +21,9 @@ public:
     virtual void Load() override;
 
 protected:
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
+    ASettings* Settings;
+
     virtual void BeginPlay() override;
 
 private:

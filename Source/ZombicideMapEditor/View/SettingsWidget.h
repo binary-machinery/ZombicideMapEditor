@@ -26,6 +26,9 @@ protected:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, BlueprintSetter=SetApplySizeButton)
     UButton* ApplySizeButton;
 
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+    UPanelWidget* SetsContainer;
+
     UFUNCTION(BlueprintSetter)
     void SetApplySizeButton(UButton* Button);
 

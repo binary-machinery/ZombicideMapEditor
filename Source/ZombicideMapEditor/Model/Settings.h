@@ -17,6 +17,9 @@ public:
     uint32 GetMapSizeY() const;
     void SetMapSize(uint32 SizeX, uint32 SizeY);
 
+    void AddAvailableSet(const FString& Set);
+    const TArray<FString>& GetAvailableSets() const;
+
     FMapSizeUpdated& OnMapSizeUpdated();
 
     virtual void PostInitializeComponents() override;
@@ -26,6 +29,8 @@ protected:
     virtual void BeginPlay() override;
 
 private:
+    TArray<FString> AvailableSets;
+
     uint32 MapSizeX;
     uint32 MapSizeY;
 

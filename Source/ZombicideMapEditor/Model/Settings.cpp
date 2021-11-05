@@ -18,6 +18,19 @@ void ASettings::SetMapSize(uint32 SizeX, uint32 SizeY)
     MapSizeUpdated.Broadcast();
 }
 
+void ASettings::AddAvailableSet(const FString& Set)
+{
+    if (!AvailableSets.Contains(Set))
+    {
+        AvailableSets.Add(Set);
+    }
+}
+
+const TArray<FString>& ASettings::GetAvailableSets() const
+{
+    return AvailableSets;
+}
+
 ASettings::FMapSizeUpdated& ASettings::OnMapSizeUpdated()
 {
     return MapSizeUpdated;

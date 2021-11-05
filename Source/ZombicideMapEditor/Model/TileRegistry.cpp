@@ -1,5 +1,7 @@
 #include "TileRegistry.h"
 
+#include "Settings.h"
+
 ATileRegistry::ATileRegistry()
 {
 }
@@ -42,6 +44,7 @@ void ATileRegistry::Load()
     for (const Model::FTile& Tile : Tiles)
     {
         TilePointers.Add(&Tile);
+        Settings->AddAvailableSet(Tile.GetSet());
     }
 }
 
