@@ -37,9 +37,6 @@ public:
 
     virtual void Load() override;
 
-protected:
-    virtual void BeginPlay() override;
-
 private:
     void SortAvailableTiles();
 

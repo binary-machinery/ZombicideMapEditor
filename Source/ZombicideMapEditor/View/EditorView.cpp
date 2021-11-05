@@ -96,12 +96,6 @@ void AEditorView::Load()
     RebuildTilePoolItemWidgets();
 }
 
-void AEditorView::BeginPlay()
-{
-    Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("AEditorView::BeginPlay"));
-}
-
 void AEditorView::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);

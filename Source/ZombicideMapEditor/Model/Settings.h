@@ -24,9 +24,6 @@ public:
 
     virtual void Load() override;
 
-protected:
-    virtual void BeginPlay() override;
-
 private:
     TArray<FString> AvailableSets;
 

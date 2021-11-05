@@ -41,9 +41,3 @@ void ATileRegistry::Load()
         Settings->AddAvailableSet(Tile.GetSet());
     }
 }
-
-void ATileRegistry::BeginPlay()
-{
-    Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("ATileRegistry::BeginPlay"));
-}

@@ -43,9 +43,3 @@ void ASettings::Load()
     MapSizeX = 3;
     MapSizeY = 3;
 }
-
-void ASettings::BeginPlay()
-{
-    Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("ASettings::BeginPlay"));
-}

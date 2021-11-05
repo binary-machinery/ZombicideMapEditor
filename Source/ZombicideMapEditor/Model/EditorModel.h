@@ -38,9 +38,6 @@ public:
     virtual void Load() override;
 
 protected:
-    virtual void BeginPlay() override;
-
-protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ASettings* Settings;
 

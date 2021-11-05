@@ -87,12 +87,6 @@ void AEditorModel::Load()
     });
 }
 
-void AEditorModel::BeginPlay()
-{
-    Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("AEditorModel::BeginPlay"));
-}
-
 void AEditorModel::CreateMap()
 {
     Map = MakeUnique<Model::FMap>(Settings->GetMapSizeX(), Settings->GetMapSizeY());

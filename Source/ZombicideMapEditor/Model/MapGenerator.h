@@ -24,9 +24,6 @@ public:
     void ResetIndices();
     bool GenerateNextTile();
 
-protected:
-    virtual void BeginPlay() override;
-
 public:
     virtual void Load() override;
 

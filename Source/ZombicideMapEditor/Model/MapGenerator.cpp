@@ -49,12 +49,6 @@ bool AMapGenerator::GenerateNextTile()
     return false;
 }
 
-void AMapGenerator::BeginPlay()
-{
-    Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::BeginPlay"));
-}
-
 void AMapGenerator::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("AMapGenerator::Load"));

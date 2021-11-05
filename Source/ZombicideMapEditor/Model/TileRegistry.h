@@ -23,8 +23,6 @@ protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ASettings* Settings;
 
-    virtual void BeginPlay() override;
-
 private:
     TArray<Model::FTile> Tiles;
     TArray<const Model::FTile*> TilePointers;

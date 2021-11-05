@@ -93,12 +93,6 @@ void ATilePool::Load()
     SortAvailableTiles();
 }
 
-void ATilePool::BeginPlay()
-{
-    Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("ATilePool::BeginPlay"));
-}
-
 void ATilePool::SortAvailableTiles()
 {
     AvailableTiles.Sort([](const Model::FTile& Tile1, const Model::FTile& Tile2)
