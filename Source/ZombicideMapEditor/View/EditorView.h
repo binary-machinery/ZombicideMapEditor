@@ -65,6 +65,9 @@ protected:
     TSubclassOf<USettingsWidget> SettingsWidgetType;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+    TSubclassOf<ATileSpriteActor> MapTileActorType;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
     TSubclassOf<ATileSpriteActor> SelectedTileActorType;
 
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
@@ -106,6 +109,6 @@ private:
     ATileSpriteActor* SelectedTileSpriteActor;
     UUiWidget* UiWidget;
     UTilePoolWidget* TilePoolWidget;
-    UGenerationWidget* GenerationWidget; 
+    UGenerationWidget* GenerationWidget;
     USettingsWidget* SettingsWidget;
 };

@@ -35,6 +35,9 @@ protected:
     UPaperSpriteComponent* TileSpriteComponent;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    UPaperSpriteComponent* TileIdBackgroundSpriteComponent;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
     UTextRenderComponent* TileIdTextRenderComponent;
 
 private:

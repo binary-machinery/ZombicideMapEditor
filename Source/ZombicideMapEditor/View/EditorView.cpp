@@ -203,7 +203,7 @@ void AEditorView::RedrawMap()
 void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
                               const Model::EMapTileRotation Rotation)
 {
-    ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(ATileSpriteActor::StaticClass());
+    ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(MapTileActorType);
     TileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
     TileSpriteActor->SetPosition(GridIndexXToWorldX(X), GridIndexYToWorldZ(Y));
     TileSpriteActor->SetRotation(Rotation);

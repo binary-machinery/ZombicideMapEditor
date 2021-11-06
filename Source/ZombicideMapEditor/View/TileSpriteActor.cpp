@@ -12,10 +12,13 @@ std::array<Model::EMapTileRotation, 4> ATileSpriteActor::AvailableRotations = {
 
 ATileSpriteActor::ATileSpriteActor()
 {
+    TileIdBackgroundSpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("TileIdBackground"));
+    TileIdBackgroundSpriteComponent->SetupAttachment(RootComponent);
+
     TileIdTextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TileId"));
     TileIdTextRenderComponent->HorizontalAlignment = EHTA_Center;
     TileIdTextRenderComponent->VerticalAlignment = EVRTA_TextCenter;
-    TileIdTextRenderComponent->SetupAttachment(RootComponent);
+    TileIdTextRenderComponent->SetupAttachment(TileIdBackgroundSpriteComponent);
 
     TileSpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
     TileSpriteComponent->SetRelativeScale3D(FVector(0.5f));
@@ -31,8 +34,11 @@ void ATileSpriteActor::SetTileData(const Model::FTileId& TileIdValue, UPaperSpri
 
 void ATileSpriteActor::SetPosition(const float X, const float Y)
 {
+    // Yes, I don't like it too
+    // TODO: Refactor the component hierarchy
     SetActorLocation(FVector(X, 0, Y));
-    TileIdTextRenderComponent->SetWorldLocation(FVector(X, 1, Y));
+    TileIdBackgroundSpriteComponent->SetWorldLocation(FVector(X, 1, Y));
+    TileIdTextRenderComponent->SetWorldLocation(FVector(X, 2, Y));
     TileIdTextRenderComponent->SetWorldRotation(FRotator::MakeFromEuler(FVector(0, 0, 90)));
 }
 
