@@ -32,10 +32,10 @@ public:
 
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    UPaperSpriteComponent* SpriteComponent;
+    UPaperSpriteComponent* TileSpriteComponent;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    UTextRenderComponent* TextRenderComponent;
+    UTextRenderComponent* TileIdTextRenderComponent;
 
 private:
     static std::array<Model::EMapTileRotation, 4> AvailableRotations;

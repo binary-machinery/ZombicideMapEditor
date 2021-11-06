@@ -12,28 +12,28 @@ std::array<Model::EMapTileRotation, 4> ATileSpriteActor::AvailableRotations = {
 
 ATileSpriteActor::ATileSpriteActor()
 {
-    TextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TileId"));
-    TextRenderComponent->HorizontalAlignment = EHTA_Center;
-    TextRenderComponent->VerticalAlignment = EVRTA_TextCenter;
-    TextRenderComponent->SetupAttachment(RootComponent);
+    TileIdTextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TileId"));
+    TileIdTextRenderComponent->HorizontalAlignment = EHTA_Center;
+    TileIdTextRenderComponent->VerticalAlignment = EVRTA_TextCenter;
+    TileIdTextRenderComponent->SetupAttachment(RootComponent);
 
-    SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
-    SpriteComponent->SetRelativeScale3D(FVector(0.5f));
-    RootComponent = SpriteComponent;
+    TileSpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
+    TileSpriteComponent->SetRelativeScale3D(FVector(0.5f));
+    RootComponent = TileSpriteComponent;
 }
 
 void ATileSpriteActor::SetTileData(const Model::FTileId& TileIdValue, UPaperSprite* Sprite)
 {
     TileId = TileIdValue;
-    SpriteComponent->SetSprite(Sprite);
-    TextRenderComponent->SetText(FText::FromString(TileId.ToString()));
+    TileSpriteComponent->SetSprite(Sprite);
+    TileIdTextRenderComponent->SetText(FText::FromString(TileId.ToString()));
 }
 
 void ATileSpriteActor::SetPosition(const float X, const float Y)
 {
     SetActorLocation(FVector(X, 0, Y));
-    TextRenderComponent->SetWorldLocation(FVector(X, 1, Y));
-    TextRenderComponent->SetWorldRotation(FRotator::MakeFromEuler(FVector(0, 0, 90)));
+    TileIdTextRenderComponent->SetWorldLocation(FVector(X, 1, Y));
+    TileIdTextRenderComponent->SetWorldRotation(FRotator::MakeFromEuler(FVector(0, 0, 90)));
 }
 
 void ATileSpriteActor::SetRotation(const Model::EMapTileRotation Rotation)
@@ -46,7 +46,7 @@ void ATileSpriteActor::SetRotation(const Model::EMapTileRotation Rotation)
             break;
         }
     }
-    SpriteComponent->SetRelativeRotation(
+    TileSpriteComponent->SetRelativeRotation(
         FRotator::MakeFromEuler(FVector(0.0f, -static_cast<float>(GetRotation()), 0.0f))
     );
 }
