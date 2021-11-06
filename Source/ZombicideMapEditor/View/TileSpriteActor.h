@@ -10,6 +10,7 @@
 
 #include "TileSpriteActor.generated.h"
 
+class UTextRenderComponent;
 class UPaperSpriteComponent;
 class UPaperSprite;
 
@@ -22,6 +23,7 @@ public:
     ATileSpriteActor();
 
     void SetTileData(const Model::FTileId& TileId, UPaperSprite* Sprite);
+    void SetPosition(const float X, const float Y);
     void SetRotation(const Model::EMapTileRotation Rotation);
     void Rotate();
 
@@ -31,6 +33,9 @@ public:
 protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     UPaperSpriteComponent* SpriteComponent;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    UTextRenderComponent* TextRenderComponent;
 
 private:
     static std::array<Model::EMapTileRotation, 4> AvailableRotations;

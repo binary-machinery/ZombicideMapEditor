@@ -203,12 +203,10 @@ void AEditorView::RedrawMap()
 void AEditorView::SpawnSprite(const uint32 X, const uint32 Y, const Model::FTileId& TileId,
                               const Model::EMapTileRotation Rotation)
 {
-    ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
-        ATileSpriteActor::StaticClass(),
-        FVector(GridIndexXToWorldX(X), 0, GridIndexYToWorldZ(Y)),
-        FRotator::MakeFromEuler(FVector(0, -static_cast<float>(Rotation), 0))
-    );
+    ATileSpriteActor* TileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(ATileSpriteActor::StaticClass());
     TileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
+    TileSpriteActor->SetPosition(GridIndexXToWorldX(X), GridIndexYToWorldZ(Y));
+    TileSpriteActor->SetRotation(Rotation);
     TileSpriteActors.Add(TileSpriteActor);
 }
 
@@ -254,7 +252,7 @@ void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
     {
         SelectedTileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
             SelectedTileActorType,
-            FVector(0, 1, 0),
+            FVector(0, 5, 0),
             FRotator::ZeroRotator
         );
     }

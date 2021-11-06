@@ -1,5 +1,6 @@
 #include "TileSpriteActor.h"
 #include "PaperSpriteComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "Paper2D/Classes/PaperSprite.h"
 
 std::array<Model::EMapTileRotation, 4> ATileSpriteActor::AvailableRotations = {
@@ -9,9 +10,13 @@ std::array<Model::EMapTileRotation, 4> ATileSpriteActor::AvailableRotations = {
     Model::EMapTileRotation::Rotation270
 };
 
-// Sets default values
 ATileSpriteActor::ATileSpriteActor()
 {
+    TextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TileId"));
+    TextRenderComponent->HorizontalAlignment = EHTA_Center;
+    TextRenderComponent->VerticalAlignment = EVRTA_TextCenter;
+    TextRenderComponent->SetupAttachment(RootComponent);
+
     SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("Sprite"));
     SpriteComponent->SetRelativeScale3D(FVector(0.5f));
     RootComponent = SpriteComponent;
@@ -21,6 +26,14 @@ void ATileSpriteActor::SetTileData(const Model::FTileId& TileIdValue, UPaperSpri
 {
     TileId = TileIdValue;
     SpriteComponent->SetSprite(Sprite);
+    TextRenderComponent->SetText(FText::FromString(TileId.ToString()));
+}
+
+void ATileSpriteActor::SetPosition(const float X, const float Y)
+{
+    SetActorLocation(FVector(X, 0, Y));
+    TextRenderComponent->SetWorldLocation(FVector(X, 1, Y));
+    TextRenderComponent->SetWorldRotation(FRotator::MakeFromEuler(FVector(0, 0, 90)));
 }
 
 void ATileSpriteActor::SetRotation(const Model::EMapTileRotation Rotation)
@@ -33,7 +46,9 @@ void ATileSpriteActor::SetRotation(const Model::EMapTileRotation Rotation)
             break;
         }
     }
-    SetActorRotation(FRotator::MakeFromEuler(FVector(0.0f, -static_cast<float>(GetRotation()), 0.0f)));
+    SpriteComponent->SetRelativeRotation(
+        FRotator::MakeFromEuler(FVector(0.0f, -static_cast<float>(GetRotation()), 0.0f))
+    );
 }
 
 void ATileSpriteActor::Rotate()
