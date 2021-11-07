@@ -27,6 +27,7 @@ bool ASettings::IsSetEnabled(const FString& Set) const
 void ASettings::SetSetEnabled(const FString& Set, const bool bIsEnabled)
 {
     EnabledSets[Set] = bIsEnabled;
+    SetToggledEvent.Broadcast(Set, bIsEnabled);
 }
 
 void ASettings::AddAvailableSet(const FString& Set)
@@ -42,9 +43,14 @@ const TArray<FString>& ASettings::GetAvailableSets() const
     return AvailableSets;
 }
 
-ASettings::FMapSizeUpdated& ASettings::OnMapSizeUpdated()
+ASettings::FMapSizeUpdatedEvent& ASettings::OnMapSizeUpdated()
 {
     return MapSizeUpdated;
+}
+
+ASettings::FSetToggledEvent& ASettings::OnSetToggledEvent()
+{
+    return SetToggledEvent;
 }
 
 void ASettings::Load()

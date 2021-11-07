@@ -18,6 +18,10 @@ void USettingsWidget::SetSettings(ASettings* Value)
         USetSettingsItemWidget* Item = CreateWidget<USetSettingsItemWidget>(this, SetSettingsItemWidgetType);
         Item->SetSet(AvailableSet);
         Item->SetIsChecked(Settings->IsSetEnabled(AvailableSet));
+        Item->OnToggledEvent().AddLambda([this](const FString& Set, const bool bIsChecked)
+        {
+            Settings->SetSetEnabled(Set, bIsChecked);
+        });
         SetsContainer->AddChild(Item);
     }
 }

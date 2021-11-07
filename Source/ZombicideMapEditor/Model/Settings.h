@@ -11,7 +11,9 @@ class ZOMBICIDEMAPEDITOR_API ASettings : public AActor, public ILoadable
     GENERATED_BODY()
 
 public:
-    DECLARE_EVENT(ASettings, FMapSizeUpdated)
+    DECLARE_EVENT(ASettings, FMapSizeUpdatedEvent)
+
+    DECLARE_EVENT_TwoParams(ASettings, FSetToggledEvent, const FString&, const bool)
 
     uint32 GetMapSizeX() const;
     uint32 GetMapSizeY() const;
@@ -23,7 +25,8 @@ public:
     void AddAvailableSet(const FString& Set);
     const TArray<FString>& GetAvailableSets() const;
 
-    FMapSizeUpdated& OnMapSizeUpdated();
+    FMapSizeUpdatedEvent& OnMapSizeUpdated();
+    FSetToggledEvent& OnSetToggledEvent();
 
     virtual void Load() override;
 
@@ -34,5 +37,6 @@ private:
     uint32 MapSizeX;
     uint32 MapSizeY;
 
-    FMapSizeUpdated MapSizeUpdated;
+    FMapSizeUpdatedEvent MapSizeUpdated;
+    FSetToggledEvent SetToggledEvent;
 };

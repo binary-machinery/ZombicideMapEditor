@@ -41,5 +41,6 @@ void USetSettingsItemWidget::SetTextBlock(UTextBlock* Value)
 
 void USetSettingsItemWidget::OnCheckBoxChecked(bool bIsChecked)
 {
-    ToggledEvent.Broadcast(Set, bIsChecked);
+    IsChecked = bIsChecked;
+    ToggledEvent.Broadcast(Set, IsChecked);
 }
