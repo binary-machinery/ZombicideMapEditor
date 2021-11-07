@@ -12,6 +12,7 @@
 #include "ZombicideMapEditor/Model/EditorModel.h"
 #include "ZombicideMapEditor/Model/TilePool.h"
 #include "ZombicideMapEditor/Model/TileData/Tile.h"
+#include "ZOrder.h"
 
 AEditorView::AEditorView()
 {
@@ -159,7 +160,7 @@ void AEditorView::OnMouseLeftButtonClick()
             ModelActor->ResetMapTile(IndexX, IndexY);
             SelectedTileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
                 SelectedTileActorType,
-                FVector(0, 5, 0),
+                FVector(0, static_cast<float>(ZOrder::SelectedTile), 0),
                 FRotator::ZeroRotator
             );
             SelectedTileSpriteActor->SetTileData(TileId, TileSpritesMap[TileId]);
@@ -252,7 +253,7 @@ void AEditorView::OnSelectedTileChanged(const Model::FTileId& TileId)
     {
         SelectedTileSpriteActor = GetWorld()->SpawnActor<ATileSpriteActor>(
             SelectedTileActorType,
-            FVector(0, 5, 0),
+            FVector(0, static_cast<float>(ZOrder::SelectedTile), 0),
             FRotator::ZeroRotator
         );
     }

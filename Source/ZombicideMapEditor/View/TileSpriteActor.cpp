@@ -2,6 +2,7 @@
 #include "PaperSpriteComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "Paper2D/Classes/PaperSprite.h"
+#include "ZOrder.h"
 
 std::array<Model::EMapTileRotation, 4> ATileSpriteActor::AvailableRotations = {
     Model::EMapTileRotation::Rotation0,
@@ -36,9 +37,9 @@ void ATileSpriteActor::SetPosition(const float X, const float Y)
 {
     // Yes, I don't like it too
     // TODO: Refactor the component hierarchy
-    SetActorLocation(FVector(X, 0, Y));
-    TileIdBackgroundSpriteComponent->SetWorldLocation(FVector(X, 1, Y));
-    TileIdTextRenderComponent->SetWorldLocation(FVector(X, 2, Y));
+    SetActorLocation(FVector(X, static_cast<float>(ZOrder::Tile), Y));
+    TileIdBackgroundSpriteComponent->SetWorldLocation(FVector(X, static_cast<float>(ZOrder::TileIdBackground), Y));
+    TileIdTextRenderComponent->SetWorldLocation(FVector(X, static_cast<float>(ZOrder::TileId), Y));
     TileIdTextRenderComponent->SetWorldRotation(FRotator::MakeFromEuler(FVector(0, 0, 90)));
 }
 
