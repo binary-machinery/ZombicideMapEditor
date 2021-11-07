@@ -224,7 +224,7 @@ void AEditorView::RebuildTilePoolItemWidgets()
 
         UPaperSprite* PaperSprite = TileSpritesMap[Tile->GetTileId()];
         TilePoolItemWidget->SetTileId(Tile->GetTileId());
-        TilePoolItemWidget->SetTileTexture(PaperSprite->GetSourceTexture());
+        TilePoolItemWidget->SetTileTexture(PaperSprite->GetBakedTexture());
     }
 }
 
@@ -238,7 +238,7 @@ void AEditorView::AddTilePoolItemWidget(const Model::FTileId& TileId)
 
     UPaperSprite* PaperSprite = TileSpritesMap[TileId];
     TilePoolItemWidget->SetTileId(TileId);
-    TilePoolItemWidget->SetTileTexture(PaperSprite->GetSourceTexture());
+    TilePoolItemWidget->SetTileTexture(PaperSprite->GetBakedTexture());
 }
 
 void AEditorView::RemoveTilePoolItemWidget(const Model::FTileId& TileId)
