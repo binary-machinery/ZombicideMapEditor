@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "SettingsWidget.generated.h"
 
+class USetSettingsItemWidget;
 class UButton;
 class ASettings;
 class UEditableTextBox;
@@ -17,6 +18,9 @@ public:
     void SetSettings(ASettings* Value);
 
 protected:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+    TSubclassOf<USetSettingsItemWidget> SetSettingsItemWidgetType;
+
     UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
     UEditableTextBox* MapSizeXInput;
 

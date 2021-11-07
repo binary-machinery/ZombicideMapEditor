@@ -18,6 +18,17 @@ void ASettings::SetMapSize(uint32 SizeX, uint32 SizeY)
     MapSizeUpdated.Broadcast();
 }
 
+bool ASettings::IsSetEnabled(const FString& Set) const
+{
+    const bool* IsEnabledPtr = EnabledSets.Find(Set);
+    return !IsEnabledPtr || *IsEnabledPtr;
+}
+
+void ASettings::SetSetEnabled(const FString& Set, const bool bIsEnabled)
+{
+    EnabledSets[Set] = bIsEnabled;
+}
+
 void ASettings::AddAvailableSet(const FString& Set)
 {
     if (!AvailableSets.Contains(Set))

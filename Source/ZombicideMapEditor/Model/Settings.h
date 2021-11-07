@@ -17,6 +17,9 @@ public:
     uint32 GetMapSizeY() const;
     void SetMapSize(uint32 SizeX, uint32 SizeY);
 
+    bool IsSetEnabled(const FString& Set) const;
+    void SetSetEnabled(const FString& Set, const bool bIsEnabled);
+
     void AddAvailableSet(const FString& Set);
     const TArray<FString>& GetAvailableSets() const;
 
@@ -26,6 +29,7 @@ public:
 
 private:
     TArray<FString> AvailableSets;
+    TMap<FString, bool> EnabledSets;
 
     uint32 MapSizeX;
     uint32 MapSizeY;

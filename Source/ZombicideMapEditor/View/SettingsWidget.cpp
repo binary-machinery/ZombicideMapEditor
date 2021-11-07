@@ -3,9 +3,9 @@
 #include "Blueprint/WidgetTree.h"
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
-#include "Components/TextBlock.h"
 #include "Misc/DefaultValueHelper.h"
 #include "ZombicideMapEditor/Model/Settings.h"
+#include "SetSettingsItemWidget.h"
 
 void USettingsWidget::SetSettings(ASettings* Value)
 {
@@ -15,9 +15,10 @@ void USettingsWidget::SetSettings(ASettings* Value)
 
     for (const FString& AvailableSet : Settings->GetAvailableSets())
     {
-        UTextBlock* TextBlock = WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass());
-        TextBlock->SetText(FText::FromString(AvailableSet));
-        SetsContainer->AddChild(TextBlock);
+        USetSettingsItemWidget* Item = CreateWidget<USetSettingsItemWidget>(this, SetSettingsItemWidgetType);
+        Item->SetSet(AvailableSet);
+        Item->SetIsChecked(Settings->IsSetEnabled(AvailableSet));
+        SetsContainer->AddChild(Item);
     }
 }
 
