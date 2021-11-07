@@ -5,6 +5,7 @@
 #include "ZombicideMapEditor/ILoadable.h"
 #include "TilePool.generated.h"
 
+class ASettings;
 class ATileRegistry;
 
 namespace Model
@@ -43,6 +44,12 @@ private:
 protected:
     UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
     ATileRegistry* TileRegistry;
+
+    UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Dependencies")
+    ASettings* Settings;
+
+private:
+    void LoadEnabledSetsToPool();
 
 private:
     TArray<const Model::FTile*> AvailableTiles;

@@ -1,5 +1,6 @@
 #include "TilePool.h"
 
+#include "Settings.h"
 #include "TileRegistry.h"
 
 ATilePool::ATilePool()
@@ -29,10 +30,10 @@ const Model::FTile* ATilePool::TakeTileFromPool(const Model::FTileId& TileId)
         const Model::FTile* OtherSideTile = *OtherSideTilePtr; // Copy pointer before we modify AvailableTiles memory
         AvailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
         UnavailableTiles.Add(OtherSideTile);
-        OnTileRemovedEvent().Broadcast(OtherSideTile->GetTileId());
+        TileRemovedEvent.Broadcast(OtherSideTile->GetTileId());
     }
 
-    OnTileRemovedEvent().Broadcast(TileId);
+    TileRemovedEvent.Broadcast(TileId);
     return Tile;
 }
 
@@ -57,11 +58,11 @@ void ATilePool::ReturnTileToPool(const Model::FTile* Tile)
         const Model::FTile* OtherSideTile = *OtherSideTilePtr; // Copy pointer before we modify UnavailableTiles memory
         UnavailableTiles.Remove(OtherSideTile); // We modify the collection, OtherSideTilePtr cannot be used anymore
         AvailableTiles.Add(OtherSideTile);
-        OnTileAddedEvent().Broadcast(OtherSideTile->GetTileId());
+        TileAddedEvent.Broadcast(OtherSideTile->GetTileId());
     }
 
     SortAvailableTiles();
-    OnTileAddedEvent().Broadcast(Tile->GetTileId());
+    TileAddedEvent.Broadcast(Tile->GetTileId());
 }
 
 ATilePool::FPoolRebuiltEvent& ATilePool::OnPoolRebuiltEvent()
@@ -83,14 +84,12 @@ void ATilePool::Load()
 {
     UE_LOG(LogTemp, Warning, TEXT("ATilePool::Load"));
 
-    AvailableTiles.Empty();
-    UnavailableTiles.Empty();
-    for (const Model::FTile* const Tile : TileRegistry->GetTiles())
-    {
-        AvailableTiles.Add(Tile);
-    }
+    LoadEnabledSetsToPool();
 
-    SortAvailableTiles();
+    Settings->OnSetToggledEvent().AddLambda([this](const FString& Set, const bool bIsEnabled)
+    {
+        LoadEnabledSetsToPool();
+    });
 }
 
 void ATilePool::SortAvailableTiles()
@@ -99,4 +98,20 @@ void ATilePool::SortAvailableTiles()
     {
         return Tile1.GetTileId() < Tile2.GetTileId();
     });
+}
+
+void ATilePool::LoadEnabledSetsToPool()
+{
+    AvailableTiles.Empty();
+    UnavailableTiles.Empty();
+    for (const Model::FTile* const Tile : TileRegistry->GetTiles())
+    {
+        if (Settings->IsSetEnabled(Tile->GetSet()))
+        {
+            AvailableTiles.Add(Tile);
+        }
+    }
+
+    SortAvailableTiles();
+    PoolRebuiltEvent.Broadcast();
 }

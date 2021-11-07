@@ -79,11 +79,47 @@ void AEditorModel::Load()
 
     CreateMap();
 
+    TilePool->OnPoolRebuiltEvent().AddLambda([this]()
+    {
+        for (uint32 X = 0; X < Map->GetSizeX(); ++X)
+        {
+            for (uint32 Y = 0; Y < Map->GetSizeY(); ++Y)
+            {
+                const Model::FMapTile& CurrentMapTile = Map->GetMapTile(X, Y);
+                if (CurrentMapTile.GetTile())
+                {
+                    TilePool->TakeTileFromPool(CurrentMapTile.GetTile()->GetTileId());
+                }
+            }
+        }
+    });
+
     Settings->OnMapSizeUpdated().AddLambda([this]()
     {
         ResetMapTiles();
         MapGenerator->ResetIndices();
         CreateMap();
+    });
+
+    Settings->OnSetToggledEvent().AddLambda([this](const FString& Set, const bool bIsEnabled)
+    {
+        if (bIsEnabled)
+        {
+            return;
+        }
+
+        for (uint32 X = 0; X < Map->GetSizeX(); ++X)
+        {
+            for (uint32 Y = 0; Y < Map->GetSizeY(); ++Y)
+            {
+                const Model::FMapTile& CurrentMapTile = Map->GetMapTile(X, Y);
+                if (CurrentMapTile.GetTile() && CurrentMapTile.GetTile()->GetSet() == Set)
+                {
+                    Map->ResetTile(X, Y);
+                }
+            }
+        }
+        MapUpdatedEvent.Broadcast();
     });
 }
 

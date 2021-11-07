@@ -26,7 +26,7 @@ bool ASettings::IsSetEnabled(const FString& Set) const
 
 void ASettings::SetSetEnabled(const FString& Set, const bool bIsEnabled)
 {
-    EnabledSets[Set] = bIsEnabled;
+    EnabledSets.FindOrAdd(Set) = bIsEnabled;
     SetToggledEvent.Broadcast(Set, bIsEnabled);
 }
 
