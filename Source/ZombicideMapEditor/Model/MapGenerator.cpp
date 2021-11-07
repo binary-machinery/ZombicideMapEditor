@@ -29,11 +29,14 @@ bool AMapGenerator::GenerateNextTile()
         TilePool->ReturnTileToPool(CurrentMapTile.GetTile());
     }
 
-    Map->SetTile(
-        CurrentX, CurrentY,
-        TilePool->TakeRandomTileFromPool(),
-        AvailableRotations[FMath::RandHelper(AvailableRotations.size())]
-    );
+    const Model::FTile* Tile = TilePool->TakeRandomTileFromPool();
+    if (!Tile)
+    {
+        ResetIndices();
+        return true;
+    }
+
+    Map->SetTile(CurrentX, CurrentY, Tile, AvailableRotations[FMath::RandHelper(AvailableRotations.size())]);
 
     ++CurrentX;
     if (CurrentX >= Map->GetSizeX())
